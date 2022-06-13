@@ -1,4 +1,4 @@
-import { productArray } from './productarray';
+import { productArray } from './productArray';
 
 describe('product array', () => {
   test.each([

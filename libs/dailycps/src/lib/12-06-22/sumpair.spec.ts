@@ -1,4 +1,4 @@
-import { sumpairCheck } from './sumpair';
+import { sumpairCheck } from './sumPair';
 
 describe('sum pair check with different inputs and sums', () => {
   test.each([
