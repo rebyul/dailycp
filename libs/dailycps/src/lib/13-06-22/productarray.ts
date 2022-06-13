@@ -1,3 +1,4 @@
+import { without } from 'lodash';
 // This problem was asked by Uber.
 
 // Given an array of integers, return a new array such that each element at index i of the new array is the product of all the numbers in the original array except the one at i.
@@ -8,9 +9,6 @@
 
 export function productArray(array: number[]) {
   return array.map((n, i, array) => {
-    const without = [...array];
-    without.splice(i, 1);
-
-    return without.reduce((a, b) => a * b);
+    return without(array, n).reduce((a, b) => a * b);
   });
 }
