@@ -16,4 +16,17 @@ describe('floodfill', () => {
       [2, 0, 1],
     ]);
   });
+  it('submission', () => {
+    const image = [
+        [0, 0, 0],
+        [0, 1, 1],
+      ],
+      sr = 1,
+      sc = 1,
+      newColor = 1;
+    expect(floodFill(image, sr, sc, newColor)).toEqual([
+      [0, 0, 0],
+      [0, 1, 1],
+    ]);
+  });
 });

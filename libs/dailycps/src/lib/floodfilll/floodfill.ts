@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/flood-fill/
+
 export function floodFill(
   image: number[][],
   sr: number,
@@ -5,6 +7,7 @@ export function floodFill(
   newColor: number
 ): number[][] {
   const startingPixelColor = image[sr][sc];
+  if (startingPixelColor === newColor) return image;
   fillCardinals(image, sr, sc, startingPixelColor, newColor);
 
   return image;
