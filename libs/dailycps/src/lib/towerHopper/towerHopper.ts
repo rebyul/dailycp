@@ -13,10 +13,7 @@ export const isHoppable = (towers: number[], index = 0): boolean => {
       return true;
     }
 
-    const nextTowerHeight = towers[nextIndex];
-    if (nextTowerHeight <= currentHeight) {
-      if (isHoppable(towers, nextIndex)) return true;
-    }
+    if (isHoppable(towers, nextIndex)) return true;
   }
   return false;
 };
@@ -44,9 +41,6 @@ export const isHoppableDp = (towers: number[], index = 0): boolean => {
         break;
       }
 
-      if (cache[i + step] > height) {
-        continue;
-      }
       cache[i + step] = true;
     }
   }
