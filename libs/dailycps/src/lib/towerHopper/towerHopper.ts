@@ -49,12 +49,24 @@ export const isHoppableDp = (towers: number[], index = 0): boolean => {
       }
       cache[i + step] = true;
     }
-    console.log(cache);
   }
 
   return cache[Math.max(cache.length - 1, towers.length)];
 };
 
+export function reverseTraversal(towers: number[]) {
+  let distanceToEscape = 0;
+
+  for (let index = towers.length - 1; index >= 0; index--) {
+    const towerHeight = towers[index];
+    if (towerHeight > distanceToEscape) {
+      distanceToEscape = 0;
+    } else {
+      distanceToEscape++;
+    }
+  }
+  return distanceToEscape === 0;
+}
 function getTowerSteps(height: number) {
   return Array(height)
     .fill(0)
