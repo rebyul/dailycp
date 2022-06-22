@@ -28,20 +28,20 @@ export function noOfCiphers(input: string) {
   const cache = new Array<Array<string>>(input.length + 1).fill([]);
 
   cache[0] = [''];
-  for (let i = 1; i < input.length + 1; i++) {
-    const currentChar = input.charAt(i - 1);
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input.charAt(i);
 
-    cache[i].push(
-      ...cache[i - 1].map((c) => `${c}${numToChar(Number(currentChar))}`)
+    cache[i + 1].push(
+      ...cache[i].map((c) => `${c}${numToChar(Number(currentChar))}`)
     );
 
-    if (i + 1 <= input.length) {
+    if (i + 2 <= input.length) {
       const nextChar = input.charAt(i);
       const number = Number(`${currentChar}${nextChar}`);
 
       if (number <= 26 && number >= 10) {
         // a is charcode 97 so since a=1, add 96
-        cache[i + 1] = cache[i - 1].map((c) => {
+        cache[i + 2] = cache[i].map((c) => {
           return `${c}${numToChar(number)}`;
         });
       }
