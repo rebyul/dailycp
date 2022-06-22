@@ -31,9 +31,10 @@ export function noOfCiphers(input: string) {
   for (let i = 1; i < input.length + 1; i++) {
     const currentChar = input.charAt(i - 1);
 
-    cache[i] = cache[i].concat(
-      cache[i - 1].map((c) => `${c}${numToChar(Number(currentChar))}`)
+    cache[i].push(
+      ...cache[i - 1].map((c) => `${c}${numToChar(Number(currentChar))}`)
     );
+
     if (i + 1 <= input.length) {
       const nextChar = input.charAt(i);
       const number = Number(`${currentChar}${nextChar}`);
