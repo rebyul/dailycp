@@ -36,7 +36,8 @@ export function noOfCiphers(input: string) {
     );
 
     if (i + 2 <= input.length) {
-      const nextChar = input.charAt(i);
+      const nextChar = input.charAt(i + 1);
+      //sdf
       const number = Number(`${currentChar}${nextChar}`);
 
       if (number <= 26 && number >= 10) {
