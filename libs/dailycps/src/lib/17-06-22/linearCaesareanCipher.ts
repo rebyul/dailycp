@@ -26,7 +26,6 @@ export function noOfCiphers(input: string) {
 
   // Cache is an array of current combinations at i'th character
   const cache = new Array<Array<string>>(input.length + 1).fill([]);
-  console.log(cache);
 
   cache[0] = [''];
   for (let i = 1; i < input.length + 1; i++) {
