@@ -7,6 +7,7 @@ Follow-up: Can you do this in O(N) time and constant space?
  */
 
 // Brute force
+// where n = input.length
 // Time complexity O(n^3)
 // Space complexity O(1)
 export function bruteForceLargestNonAdjacentSum(input: number[]) {
@@ -33,8 +34,10 @@ export function bruteForceLargestNonAdjacentSum(input: number[]) {
   return highestSum;
 }
 
+// Dynamic programming
+// where n = input.length
 // Time complexity O(n)
-// Space complexity O(2n)
+// Space complexity O(1)
 export function dpLargestNonAdjacentSum(input: number[]) {
   const cache = [...Array(input.length + 1)].map(() => Array(2));
 
