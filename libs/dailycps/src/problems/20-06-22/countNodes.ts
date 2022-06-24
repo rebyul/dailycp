@@ -4,7 +4,5 @@ import { BinaryNode } from '../../lib/BinaryNode';
 export function countNodes(tree?: BinaryNode): number {
   if (!tree) return 0;
 
-  const count = 1;
-
-  return count + countNodes(tree.left) + countNodes(tree.right);
+  return 1 + countNodes(tree.left) + countNodes(tree.right);
 }
