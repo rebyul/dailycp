@@ -1,3 +1,4 @@
+import { BinaryNode } from '../../lib/BinaryNode';
 /**
  * This problem was asked by Google.
 
@@ -16,11 +17,7 @@ For example, the following tree has 5 unival subtrees:
  1   1
  */
 
-export class Node {
-  constructor(public value: number, public left?: Node, public right?: Node) {}
-}
-
-export function countUnivalSubtrees(tree: Node) {
+export function countUnivalSubtrees(tree: BinaryNode) {
   let count = 0;
 
   if (tree.left) {

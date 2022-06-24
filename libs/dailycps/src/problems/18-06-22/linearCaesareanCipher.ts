@@ -47,7 +47,7 @@ export function noOfCiphers(input: string) {
       }
     }
   }
-  console.log(cache);
+  // console.log(cache);
   return cache[input.length].length;
 }
 
