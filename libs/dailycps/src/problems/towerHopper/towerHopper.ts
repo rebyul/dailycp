@@ -61,6 +61,7 @@ export function reverseTraversal(towers: number[]) {
   }
   return distanceToEscape === 0;
 }
+
 function getTowerSteps(height: number) {
   return Array(height)
     .fill(0)
