@@ -11,30 +11,32 @@ export function autocomplete(dictionary: string[], search: string): string[] {
   const wordCache = buildDictionary(dictionary);
 
   let searchCache = wordCache;
+
   for (let i = 0; i < search.length; i++) {
     const char = search.charAt(i);
 
-    if (searchCache.has(char)) searchCache = searchCache.get(char)!;
-    else {
-      return [];
+    if (searchCache.has(char)) {
+      searchCache = searchCache.get(char)!;
+      continue;
+    } else {
+      return []; // Short circuit no dictionary match
     }
   }
 
-  if (searchCache) {
-    // console.log(searchCache);
-    return buildString(searchCache).map((s) => `${search}${s}`);
-  }
-  return [];
+  return buildString(searchCache, search);
 }
 
-// Need to draw this out. Not understanding how this works..
-function buildString(charMap: RecursiveCharMap): string[] {
-  if (charMap.size === 0) {
-    return [...charMap.keys()];
+function buildString(charMap: RecursiveCharMap, base: string): string[] {
+  // If there are no further character branches, return the base
+  if (charMap.values().next().done) {
+    return [base];
   }
-  return [...charMap.entries()].map(([k, v]) => {
-    return `${k}${buildString(v)}`;
-  });
+
+  // for each char branch, append the key
+  return [...charMap.entries()].reduce<string[]>(
+    (a, [k, v]) => a.concat(buildString(v, `${base}${k}`)),
+    []
+  );
 }
 
 function buildDictionary(dictionary: string[]) {
@@ -42,13 +44,20 @@ function buildDictionary(dictionary: string[]) {
   dictionary.map((w) => {
     const chars = w.split('');
     let charCache = cache;
+
+    // Foreach character in the word
     chars.forEach((c) => {
+      // If it exists in the cache set it as the new base cache
       if (charCache.has(c)) {
         charCache = charCache.get(c)!;
+        return;
       } else {
+        // If it doesn't exist, create and set a new map with no branches
         const newMap = new Map();
         charCache.set(c, newMap);
+        // Set the new character as the base cache
         charCache = newMap;
+        return;
       }
     });
   });
