@@ -7,6 +7,8 @@ For example, given the query string de and the set of strings [dog, deer, deal],
 Hint: Try preprocessing the dictionary into a more efficient data structure to speed up queries.
  */
 
+import { flatMap } from 'lodash';
+
 export function autocomplete(dictionary: string[], search: string): string[] {
   const wordCache = buildDictionary(dictionary);
 
@@ -32,11 +34,10 @@ function buildString(charMap: RecursiveCharMap, base: string): string[] {
     return [base];
   }
 
-  // for each char branch, append the key
-  return [...charMap.entries()].reduce<string[]>(
-    (a, [k, v]) => a.concat(buildString(v, `${base}${k}`)),
-    []
-  );
+  // for each char branch, append the recursed string
+  return [...charMap.entries()].flatMap(([k, v]) => {
+    return buildString(v, k).map((s) => `${base}${s}`);
+  });
 }
 
 function buildDictionary(dictionary: string[]) {
