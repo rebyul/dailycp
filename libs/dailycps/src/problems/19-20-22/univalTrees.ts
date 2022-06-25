@@ -17,13 +17,15 @@ For example, the following tree has 5 unival subtrees:
  1   1
  */
 
+// This is incorrect as it only checks the left right node values === node.value,
+// not if the sub tree as a whole is the same as the root node
 export function countUnivalSubtrees(tree?: BinaryNode): number {
-  let count = 0;
   if (!tree) {
     return 0;
   }
+  let count = 0;
 
-  // DFS
+  // Check if input is unival
   if (
     (!tree.left && !tree.right) ||
     (tree.left?.value === tree.value && tree.right?.value === tree.value)
@@ -31,6 +33,7 @@ export function countUnivalSubtrees(tree?: BinaryNode): number {
     count++;
   }
   return (
+    // DFS
     count + countUnivalSubtrees(tree.left) + countUnivalSubtrees(tree.right)
   );
 }
