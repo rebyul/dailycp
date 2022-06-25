@@ -17,14 +17,10 @@ For example, the following tree has 5 unival subtrees:
  1   1
  */
 
-export function countUnivalSubtrees(tree: BinaryNode) {
+export function countUnivalSubtrees(tree?: BinaryNode): number {
   let count = 0;
-
-  if (tree.left) {
-    count += countUnivalSubtrees(tree.left);
-  }
-  if (tree.right) {
-    count += countUnivalSubtrees(tree.right);
+  if (!tree) {
+    return 0;
   }
 
   // DFS
@@ -34,5 +30,7 @@ export function countUnivalSubtrees(tree: BinaryNode) {
   ) {
     count++;
   }
-  return count;
+  return (
+    count + countUnivalSubtrees(tree.left) + countUnivalSubtrees(tree.right)
+  );
 }
