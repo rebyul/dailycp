@@ -18,6 +18,8 @@ you could climb any number from a set of positive integers X? For example, if X 
  you could climb 1, 3, or 5 steps at a time.
  */
 
+// Time complexity: O(n^m) where n = step count and m = possible steps
+// Space complexity O(m)
 export function recursiveStaircaseCombinations(
   stepCount: number,
   possibleSteps: number[]
@@ -42,22 +44,22 @@ export function recursiveStaircaseCombinations(
   return result;
 }
 
+// Time complexity: O(n*m^2) where n = step count and m = possible steps
+// Space complexity: O(n*m^2)
 export function dpStaircaseCombinations(
   stepCount: number,
   possibleSteps: number[]
 ) {
-  const cache: number[][][] = [...Array(stepCount + 1)].map(() => [
-    ...Array(1).fill([]),
-  ]);
-  console.log(cache);
-
-  cache[stepCount] = [[]];
+  const cache: number[][][] = [...Array(stepCount + 1)].map(() => []);
+  cache[0] = [[]];
 
   for (let i = 0; i < stepCount; i++) {
     for (const step of possibleSteps) {
       if (i + step <= stepCount) {
-        cache[i + step].push(...cache[i].map((e) => [...e, step]));
-        console.log(cache);
+        cache[i + step] = cache[i + step].concat(
+          cache[i].map((e) => [...e, step])
+        );
+        // console.log(cache);
       }
     }
   }
