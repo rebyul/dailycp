@@ -7,9 +7,8 @@ For example, given the query string de and the set of strings [dog, deer, deal],
 Hint: Try preprocessing the dictionary into a more efficient data structure to speed up queries.
  */
 
-export function autocomplete(dictionary: string[], search: string) {
+export function autocomplete(dictionary: string[], search: string): string[] {
   const wordCache = buildDictionary(dictionary);
-  // console.log(wordCache);
 
   let searchCache = wordCache;
   for (let i = 0; i < search.length; i++) {
@@ -22,13 +21,13 @@ export function autocomplete(dictionary: string[], search: string) {
   }
 
   if (searchCache) {
-    console.log(searchCache);
-
+    // console.log(searchCache);
     return buildString(searchCache).map((s) => `${search}${s}`);
   }
   return [];
 }
 
+// Need to draw this out. Not understanding how this works..
 function buildString(charMap: RecursiveCharMap): string[] {
   if (charMap.size === 0) {
     return [...charMap.keys()];
