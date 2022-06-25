@@ -14,15 +14,11 @@
 // For example, if X = {1, 3, 5}, you could climb 1, 3, or 5 steps at a time.
 // Generalize your function to take in X.
 
-export function noOfWays(noOfStairs: number, availableSteps: number[]) {
-  return findStep(noOfStairs, availableSteps);
-}
-
-function findStep(n: number, availableSteps: number[]): number {
+export function noOfWays(n: number, availableSteps: number[]): number {
   if (n == 0) return 1;
   else if (n < 0) return 0;
   else
     return availableSteps
-      .map((s) => findStep(n - s, availableSteps))
+      .map((s) => noOfWays(n - s, availableSteps))
       .reduce((a, b) => a + b);
 }
