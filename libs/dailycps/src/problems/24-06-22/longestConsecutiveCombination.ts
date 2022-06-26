@@ -4,7 +4,7 @@
 For example, given s = "abcba" and k = 2, the longest substring with k distinct characters is "bcb".
  */
 
-export function longestConsecutiveCombination(
+export function recursiveLongestConsecutiveCombination(
   input: string,
   distinctChars: number
 ): string {
@@ -13,6 +13,7 @@ export function longestConsecutiveCombination(
   if (distinctChars === 0) return '';
 
   for (let i = 0; i < input.length; i++) {
+    if (input.length - i < longestString.length) break;
     const char = input[i];
     const combination = `${char}${recurse(
       input.slice(i + 1),

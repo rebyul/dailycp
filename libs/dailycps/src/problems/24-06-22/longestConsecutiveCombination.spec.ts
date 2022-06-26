@@ -1,4 +1,4 @@
-import { longestConsecutiveCombination } from './longestConsecutiveCombination';
+import { recursiveLongestConsecutiveCombination } from './longestConsecutiveCombination';
 
 describe('Longest consecutive string combination', () => {
   test.each([
@@ -7,9 +7,11 @@ describe('Longest consecutive string combination', () => {
     ['aaa', 2, 'aaa'],
     ['abcba', 2, 'bcb'],
   ])(
-    '.longestConsecutiveCombination(%s, %d) returns %s',
+    '.recursiveLongestConsecutiveCombination(%s, %d) returns %s',
     (word, distinct, output) => {
-      expect(longestConsecutiveCombination(word, distinct)).toEqual(output);
+      expect(recursiveLongestConsecutiveCombination(word, distinct)).toEqual(
+        output
+      );
     }
   );
 });
