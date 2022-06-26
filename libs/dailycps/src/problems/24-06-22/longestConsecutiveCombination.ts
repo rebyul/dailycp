@@ -40,3 +40,32 @@ function recurse(
 
   return `${input[0]}${recurse(input.slice(1), distinctChars, usedChars)}`;
 }
+
+export function iterativeLongestConsecutiveCombination(
+  input: string,
+  distinctChars: number
+): string {
+  let longestString = '';
+  if (distinctChars === 0) return '';
+
+  for (let index = 0; index < input.length; index++) {
+    if (input.length - index < longestString.length) break;
+
+    const char = input[index];
+    const usedChars = new Set(char);
+    const rest = input.slice(index + 1);
+
+    let currentLongest = char;
+    for (const c of rest) {
+      if (!usedChars.has(c) && usedChars.size + 1 > distinctChars) break;
+
+      usedChars.add(c);
+      currentLongest = `${currentLongest}${c}`;
+    }
+
+    if (currentLongest.length > longestString.length) {
+      longestString = currentLongest;
+    }
+  }
+  return longestString;
+}
