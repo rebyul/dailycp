@@ -8,7 +8,7 @@ export function solveNQueens(n: number, m: number): [number, number][] {
 
   const firstCombination = findFirstCombination(board, m);
   const queens = getQueens(board);
-  printBoard(board);
+  // printBoard(board);
 
   // Print all combinations for fun
   // const board: number[][] = [...Array(n)].map(() => [...Array(n)].map(() => 0));
@@ -26,24 +26,27 @@ export function solveNQueens(n: number, m: number): [number, number][] {
 
 function findFirstCombination(board: number[][], queenCount: number): boolean {
   if (queenCount === 0) return true;
-  let safe = false;
 
-  for (let r = 0; r < board.length; r++) {
+  // r= board.length - queenCount as only 1 queen can ever be placed on a row.
+  // Every recursion depth we go in reduces the queen count by 1, therefore we can skip a row
+  for (let r = board.length - queenCount; r < board.length; r++) {
     for (let c = 0; c < board.length; c++) {
       // If queen has already placed here, continue
       if (board[r][c] === 1) continue;
       // Place queen at r, c
       board[r][c] = 1;
       // Check if board is safe
-      safe = checkBoard(board);
-      if (safe) {
-        const recurse = findFirstCombination(board, queenCount - 1);
-        if (recurse) return safe;
+      if (checkBoard(board)) {
+        // If it's safe, find if there is a next possible queen position through DFS
+        if (findFirstCombination(board, queenCount - 1)) return true;
       }
+      // If the DFS above didn't return, unmark the backtrack the current position and move on
       board[r][c] = 0;
+      continue;
     }
   }
 
+  // If all combinations
   return false;
 }
 
