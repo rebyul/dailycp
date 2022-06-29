@@ -41,6 +41,8 @@ function recurse(
   return `${input[0]}${recurse(input.slice(1), distinctChars, usedChars)}`;
 }
 
+// Time complexity: O(n^2) where n is the length of input
+// Space complexity: O(n+m) where m is the value of distinct chars
 export function iterativeLongestConsecutiveCombination(
   input: string,
   distinctChars: number
