@@ -2,6 +2,7 @@ import { solveNQueens } from './nQueens';
 
 describe('N Queens', () => {
   test.each([
+    // [2, 1, []],
     [
       4,
       4,
@@ -25,7 +26,8 @@ describe('N Queens', () => {
       ],
     ],
   ])('.solveNQueens(%d, %d) returns %p', (n, m, output) => {
-    expect(solveNQueens(n, m)).toEqual(expect.arrayContaining(output));
-    expect(output).toEqual(expect.arrayContaining(solveNQueens(n, m)));
+    const result = solveNQueens(n, m);
+    expect(result).toEqual(expect.arrayContaining(output));
+    expect(output).toEqual(expect.arrayContaining(result));
   });
 });
