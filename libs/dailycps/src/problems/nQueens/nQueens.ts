@@ -71,8 +71,6 @@ function getAllCombinations(
         const recurse = getAllCombinations(board, queenCount - 1);
         if (recurse.length > 0) {
           results.push(...JSON.parse(JSON.stringify(recurse)));
-          board[r][c] = 0;
-          continue;
         }
       }
       board[r][c] = 0;
