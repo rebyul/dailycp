@@ -29,7 +29,7 @@ function findFirstCombination(board: number[][], queenCount: number): boolean {
 
   // r= board.length - queenCount as only 1 queen can ever be placed on a row.
   // Every recursion depth we go in reduces the queen count by 1, therefore we can skip a row
-  for (let r = board.length - queenCount; r < board.length; r++) {
+  for (let r = 0; r < board.length; r++) {
     for (let c = 0; c < board.length; c++) {
       // If queen has already placed here, continue
       if (board[r][c] === 1) continue;

@@ -2,7 +2,7 @@ import { solveNQueens } from './nQueens';
 
 describe('N Queens', () => {
   test.each([
-    // [2, 1, []],
+    [2, 1, [[0, 0]]],
     [
       4,
       4,
