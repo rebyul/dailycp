@@ -15,13 +15,13 @@ Given the set of words 'bed', 'bath', 'bedbath', 'and', 'beyond', and the string
 export function reconstructDictionary(
   dictionary: string[],
   sentence: string,
-  memo: { [key: string]: string[] } = {}
-): string[] {
+  memo: { [key: string]: string[] | null } = {}
+): string[] | null {
   if (sentence in memo) {
     return memo[sentence];
   }
   if (sentence === '') return [];
-  const combinationCache: string[] = [];
+  const combinationCache: string[] | null = null;
 
   for (const word of dictionary) {
     if (sentence.indexOf(word) === 0) {
@@ -37,5 +37,6 @@ export function reconstructDictionary(
   }
 
   memo[sentence] = combinationCache;
+
   return memo[sentence];
 }

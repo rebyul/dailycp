@@ -7,6 +7,7 @@ describe('Word reconstruction', () => {
       'thequickbrownfox',
       ['the', 'quick', 'brown', 'fox'],
     ],
+    [['quick', 'the', 'fox'], 'thequickbrownfox', null],
     [
       ['bed', 'bath', 'bedbath', 'and', 'beyond'],
       'bedbathandbeyond',
