@@ -15,3 +15,19 @@ Do this in O(n) time and O(k) space.
 You can modify the input array in-place and you do not need to store the results.
 You can simply print them out as you compute them.
  */
+
+export function findMaxValueOfEachSubarray(input: number[], k: number) {
+  const currentMaxCombination = [];
+
+  for (let index = 0; index < input.length - k + 1; index++) {
+    const [first, second, third] = [
+      input[index],
+      input[index + 1],
+      input[index + 2],
+    ];
+
+    currentMaxCombination.push(Math.max(first, second, third));
+  }
+
+  return currentMaxCombination;
+}
