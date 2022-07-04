@@ -10,21 +10,14 @@
  * }
  */
 
-export class ListNode {
-  val: number;
-  next: ListNode | null;
-  constructor(val?: number, next?: ListNode | null) {
-    this.val = val === undefined ? 0 : val;
-    this.next = next === undefined ? null : next;
-  }
-}
+import { LinkedListNode } from '../../lib/LinkedListNode';
 
 export function addTwoNumbers(
-  l1: ListNode | null,
-  l2: ListNode | null
-): ListNode | null {
+  l1: LinkedListNode | null,
+  l2: LinkedListNode | null
+): LinkedListNode | null {
   let sum = 0;
-  let current = new ListNode(0);
+  let current = new LinkedListNode(0);
   const result = current;
 
   while (l1 || l2) {
@@ -38,14 +31,14 @@ export function addTwoNumbers(
       l2 = l2.next;
     }
 
-    current.next = new ListNode(sum % 10);
+    current.next = new LinkedListNode(sum % 10);
     current = current.next;
 
     sum = sum > 9 ? 1 : 0;
   }
 
   if (sum) {
-    current.next = new ListNode(sum);
+    current.next = new LinkedListNode(sum);
   }
 
   return result.next;
