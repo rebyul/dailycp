@@ -50,6 +50,7 @@ export function dpStaircaseCombinations(
   stepCount: number,
   possibleSteps: number[]
 ) {
+  // Cache the step combinations taken
   const cache: number[][][] = [...Array(stepCount + 1)].map(() => []);
   cache[0] = [[]];
 
@@ -59,7 +60,7 @@ export function dpStaircaseCombinations(
         cache[i + step] = cache[i + step].concat(
           cache[i].map((e) => [...e, step])
         );
-        // console.log(cache);
+        console.log(cache);
       }
     }
   }

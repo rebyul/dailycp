@@ -37,8 +37,12 @@ export function bruteForceLargestNonAdjacentSum(input: number[]) {
 // Dynamic programming
 // where n = input.length
 // Time complexity O(n)
-// Space complexity O(1)
+// Space complexity O(n)
 export function dpLargestNonAdjacentSum(input: number[]) {
+  // Cache the current largest sum. Each cache entry has 2 values
+  // index 0 which doesn't include the current value and
+  // index 1 which added it to the previous index's non included highest sum
+  // index 1 always adds the current input to the previous index 0 as they cant be adjacent
   const cache = [...Array(input.length + 1)].map(() => Array(2));
 
   cache[0][0] = null;

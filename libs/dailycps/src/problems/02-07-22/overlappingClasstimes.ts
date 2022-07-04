@@ -5,6 +5,8 @@ Given an array of time intervals (start, end) for classroom lectures (possibly o
 find the minimum number of rooms required.
 
 For example, given [(30, 75), (0, 50), (60, 150)], you should return 2.
+Time complexity: O(n) where n is the number of class times
+Space complexity: O(n) where n is the number of class times
  */
 export function noOfClassrooms(times: number[][]) {
   let classrooms = 0;

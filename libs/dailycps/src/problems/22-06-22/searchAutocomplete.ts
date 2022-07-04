@@ -7,8 +7,6 @@ For example, given the query string de and the set of strings [dog, deer, deal],
 Hint: Try preprocessing the dictionary into a more efficient data structure to speed up queries.
  */
 
-import { flatMap } from 'lodash';
-
 export function autocomplete(dictionary: string[], search: string): string[] {
   const wordCache = buildDictionary(dictionary);
 
