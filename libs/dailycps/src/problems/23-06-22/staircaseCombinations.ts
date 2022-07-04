@@ -60,7 +60,7 @@ export function dpStaircaseCombinations(
         cache[i + step] = cache[i + step].concat(
           cache[i].map((e) => [...e, step])
         );
-        console.log(cache);
+        // console.log(cache);
       }
     }
   }
