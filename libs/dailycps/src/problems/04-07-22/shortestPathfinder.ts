@@ -76,6 +76,7 @@ export function shortestPathFinder(
       else if (nextMinDistance > currentMinDistance + 1) {
         minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
         queue.push([cY + vY, cX + vX]);
+        return;
       }
     });
   }
