@@ -50,49 +50,41 @@ export function shortestPathFinder(
 
   // while queue is not empty
   while (queue.length > 0) {
-    console.log(queue);
-
     // get next queue item
     const [cY, cX] = queue.pop()!;
-    // // if item === destination, update minDistance at item
 
-    // if (cX === endX && cY === endY && minDistance.get([endX, endY])?.valueOf() ) {
-    //   minDistance.set([endX, endY], currentSteps);
-    //   continue;
-    // }
-    // if not, add neighbours to the queue
-    // else {
+    // Check neighbours
     directions.forEach(([vX, vY]) => {
       // If it's on the board and not a wall
       if (
-        isOnBoard(boardWidth, boardHeight, cX + vX, cY + vY) &&
-        !board[cY + vY][cX + vX]
+        !isOnBoard(boardWidth, boardHeight, cX + vX, cY + vY) ||
+        isWall(board, cX + vX, cY + vY)
       ) {
-        // check if it has been visited
-        const nextMinDistance = minDistance.get(`${cY + vY},${cX + vX}`);
-        const currentMinDistance = minDistance.get(`${cY},${cX}`)!;
+        return;
+      }
+      // check if it has been visited
+      const nextMinDistance = minDistance.get(`${cY + vY},${cX + vX}`);
+      const currentMinDistance = minDistance.get(`${cY},${cX}`)!;
 
-        // if it hasnt been explored, add to queueq
-        if (!nextMinDistance) {
-          minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
-          queue.push([cY + vY, cX + vX]);
-        } else {
-          // If previous saved distance to the next position is longer than current min +1 update it
-          if (nextMinDistance > currentMinDistance + 1) {
-            minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
-            queue.push([cY + vY, cX + vX]);
-          }
-        }
+      // if it hasnt been explored, add to queueq
+      if (!nextMinDistance) {
+        minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
+        queue.push([cY + vY, cX + vX]);
+        return;
+      }
+      // If previous saved distance to the next position is longer than current min +1 update it
+      else if (nextMinDistance > currentMinDistance + 1) {
+        minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
+        queue.push([cY + vY, cX + vX]);
       }
     });
-    // }
   }
 
   return minDistance.get(`${eY},${eX}`) || null;
 }
 
 function isWall(board: boolean[][], x: number, y: number) {
-  return board[x][y];
+  return board[y][x];
 }
 
 function isOnBoard(
