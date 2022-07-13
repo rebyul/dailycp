@@ -10,7 +10,7 @@ In this example, assume nodes with the same value are the exact same node object
 Do this in O(M + N) time (where M and N are the lengths of the lists) and constant space.
  */
 
-import { LinkedListNode } from '../../lib/LinkedListNode';
+import { LinkedListNode } from '../../../lib/LinkedListNode';
 
 export function findIntersection(listA: LinkedListNode, listB: LinkedListNode) {
   const visitedCache: Record<number, number | null> = {};

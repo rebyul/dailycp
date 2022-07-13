@@ -1,4 +1,4 @@
-import { LinkedListNode } from '../../lib/LinkedListNode';
+import { LinkedListNode } from '../../../lib/LinkedListNode';
 import { findIntersection } from './linkedListIntersection';
 describe('Find intersection node between two linked lists', () => {
   test.each([
