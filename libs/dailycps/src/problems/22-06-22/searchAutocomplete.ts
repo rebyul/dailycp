@@ -10,57 +10,78 @@ Hint: Try preprocessing the dictionary into a more efficient data structure to s
 export function autocomplete(dictionary: string[], search: string): string[] {
   const wordCache = buildDictionary(dictionary);
 
-  let searchCache = wordCache;
+  let suffixHits: WordTrie | undefined = wordCache.get(search.charAt(0));
 
-  for (let i = 0; i < search.length; i++) {
+  for (let i = 1; i < search.length; i++) {
     const char = search.charAt(i);
-
-    if (searchCache.has(char)) {
-      searchCache = searchCache.get(char)!;
+    // load next letter children to be searched
+    suffixHits = suffixHits?.children.get(char);
+    if (suffixHits) {
       continue;
     } else {
       return []; // Short circuit no dictionary match
     }
   }
 
-  return buildString(searchCache, search);
+  if (!suffixHits) return [];
+
+  const result = buildString(suffixHits, search.slice(0, search.length - 1));
+
+  return result;
 }
 
-function buildString(charMap: RecursiveCharMap, base: string): string[] {
-  // If there are no further character branches, return the base
-  if (charMap.values().next().done) {
-    return [base];
+function buildString(suffixHit: WordTrie, base: string): string[] {
+  const results: string[] = [];
+  // If there are no suffix branches, return the base
+  if (suffixHit.isWord) {
+    results.push(`${base}${suffixHit.letter}`);
   }
+  const suffixCombinations = [...suffixHit.children.values()].flatMap((c) =>
+    buildString(c, `${base}${suffixHit.letter}`)
+  );
 
-  // for each char branch, append the recursed string
-  return [...charMap.entries()].flatMap(([k, v]) => {
-    return buildString(v, k).map((s) => `${base}${s}`);
-  });
+  return results.concat(suffixCombinations);
 }
 
-function buildDictionary(dictionary: string[]) {
-  const cache: RecursiveCharMap = new Map<string, RecursiveCharMap>();
-  dictionary.map((w) => {
-    const chars = w.split('');
-    let charCache = cache;
+/**
+ * d -> o -> g (isWord = true)
+ * d ->
+ */
 
-    // Foreach character in the word
-    chars.forEach((c) => {
-      // If it exists in the cache set it as the new base cache
-      if (charCache.has(c)) {
-        charCache = charCache.get(c)!;
-        return;
-      } else {
-        // If it doesn't exist, create and set a new map with no branches
-        const newMap = new Map();
-        charCache.set(c, newMap);
-        // Set the new character as the base cache
-        charCache = newMap;
-        return;
+function buildDictionary(dictionary: string[]): Map<string, WordTrie> {
+  // For each word in the dictionary, build a trie of each letter in each word
+  // that graphs out every letter combination. At the end of each word, mark the node as a
+  // complete word
+  const dict = new Map<string, WordTrie>();
+
+  dictionary.forEach((word) => {
+    // Initialize current trie to first letter entry
+    let currentMap = dict;
+
+    for (let i = 0; i < word.length; i++) {
+      const letter = word.charAt(i);
+      const existing = currentMap.get(letter);
+      // If the letter has been visited, only update its isWord
+      if (existing) {
+        existing.isWord = existing.isWord || i === word.length - 1;
+        // set current map to next letters of current
+        currentMap = existing.children;
+        continue;
       }
-    });
+
+      const newEntry = new WordTrie(letter, i === word.length - 1);
+      currentMap.set(letter, newEntry);
+      currentMap = newEntry.children;
+    }
   });
-  return cache;
+
+  return dict;
 }
 
-type RecursiveCharMap = Map<string, RecursiveCharMap>;
+class WordTrie {
+  constructor(
+    public letter: string,
+    public isWord: boolean = false,
+    public children: Map<string, WordTrie> = new Map()
+  ) {}
+}
