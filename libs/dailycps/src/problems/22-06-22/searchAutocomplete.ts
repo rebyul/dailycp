@@ -7,13 +7,16 @@ For example, given the query string de and the set of strings [dog, deer, deal],
 Hint: Try preprocessing the dictionary into a more efficient data structure to speed up queries.
  */
 
-export function autocomplete(dictionary: string[], search: string): string[] {
+export function autocomplete(
+  dictionary: string[],
+  searchTerm: string
+): string[] {
   const wordCache = buildDictionary(dictionary);
 
-  let suffixHits: WordTrie | undefined = wordCache.get(search.charAt(0));
+  let suffixHits: WordTrie | undefined = wordCache.get(searchTerm.charAt(0));
 
-  for (let i = 1; i < search.length; i++) {
-    const char = search.charAt(i);
+  for (let i = 1; i < searchTerm.length; i++) {
+    const char = searchTerm.charAt(i);
     // load next letter children to be searched
     suffixHits = suffixHits?.children.get(char);
     if (suffixHits) {
@@ -25,7 +28,7 @@ export function autocomplete(dictionary: string[], search: string): string[] {
 
   if (!suffixHits) return [];
 
-  const result = buildString(suffixHits, search.slice(0, search.length - 1));
+  const result = buildString(suffixHits, searchTerm);
 
   return result;
 }
@@ -34,19 +37,14 @@ function buildString(suffixHit: WordTrie, base: string): string[] {
   const results: string[] = [];
   // If there are no suffix branches, return the base
   if (suffixHit.isWord) {
-    results.push(`${base}${suffixHit.letter}`);
+    results.push(`${base}`);
   }
   const suffixCombinations = [...suffixHit.children.values()].flatMap((c) =>
-    buildString(c, `${base}${suffixHit.letter}`)
+    buildString(c, `${base}${c.letter}`)
   );
 
   return results.concat(suffixCombinations);
 }
-
-/**
- * d -> o -> g (isWord = true)
- * d ->
- */
 
 function buildDictionary(dictionary: string[]): Map<string, WordTrie> {
   // For each word in the dictionary, build a trie of each letter in each word
