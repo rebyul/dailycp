@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../lib/BinaryNode';
+import { BinaryNode } from '../../../lib/BinaryNode';
 import { countNodes } from './countNodes';
 
 describe('Count Nodes', () => {

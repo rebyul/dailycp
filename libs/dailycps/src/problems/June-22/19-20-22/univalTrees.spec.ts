@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../lib/BinaryNode';
+import { BinaryNode } from '../../../lib/BinaryNode';
 import { countUnivalSubtrees } from './univalTrees';
 
 /**

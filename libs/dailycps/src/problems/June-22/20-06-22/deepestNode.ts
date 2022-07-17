@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../lib/BinaryNode';
+import { BinaryNode } from '../../../lib/BinaryNode';
 
 // Given the root to a binary tree, return the deepest node.
 // Clarification question: if there are nodes of equal depth, which do we return?

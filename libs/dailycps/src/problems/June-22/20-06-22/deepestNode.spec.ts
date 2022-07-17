@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../lib/BinaryNode';
+import { BinaryNode } from '../../../lib/BinaryNode';
 import { deepestNode } from './deepestNode';
 
 describe('Depeest node', () => {

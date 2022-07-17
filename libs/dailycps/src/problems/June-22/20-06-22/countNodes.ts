@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../lib/BinaryNode';
+import { BinaryNode } from '../../../lib/BinaryNode';
 
 // Given the root to a binary tree, count the total number of nodes there are.
 export function countNodes(tree?: BinaryNode): number {
