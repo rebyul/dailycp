@@ -48,9 +48,10 @@ export class MinHeap<T> implements IHeap<T> {
     let childIndex;
 
     for (; index * 2 < this.heap.length; index = childIndex) {
+      // Left child index
       childIndex = index * 2 + 1;
 
-      // Choose the smaller of the two (left, right) children
+      // If the right child is smaller than the left child, choose the right to move up
       if (
         childIndex < this.heap.length - 1 &&
         this.heap[childIndex] > this.heap[childIndex + 1]
