@@ -23,20 +23,10 @@ export function createMinimumPalindrome(input: string): string {
     return [...Array(input.length)].map(() => -1);
   });
   const min = findMinimumInsertions(input, 0, input.length - 1, dp);
-  console.log(
-    '🚀 ~ file: minimumPalindrome.ts ~ line 26 ~ createMinimumPalindrome ~ dp',
-    min
-  );
 
-  min.sort();
   console.log(
     '🚀 ~ file: minimumPalindrome.ts ~ line 32 ~ createMinimumPalindrome ~ min.sort()',
-    min.sort((a, b) => {
-      if (a.length === b.length) {
-        return a < b ? -1 : 1;
-      }
-      return a.length < b.length ? -1 : 1;
-    })
+    min.sort()
   );
   return min.sort((a, b) => {
     if (a.length === b.length) {
@@ -44,8 +34,6 @@ export function createMinimumPalindrome(input: string): string {
     }
     return a.length < b.length ? -1 : 1;
   })[0];
-
-  return `${min}`;
 }
 
 function findMinimumInsertions(
@@ -91,17 +79,7 @@ function findMinimumInsertions(
     //     findMinimumInsertions(word, start, end - 1, dp),
     //     findMinimumInsertions(word, start + 1, end, dp)
     //   ) + 1;
-    const startRep = findMinimumInsertions(word, start, end - 1, dp).map(
-      (c) => `${word.charAt(end)}${c}${word.charAt(end)}`
-    );
-    const endRep = findMinimumInsertions(word, start + 1, end, dp).map(
-      (c) => `${word.charAt(start)}${c}${word.charAt(start)}`
-    );
-    console.log(
-      '🚀 ~ file: minimumPalindrome.ts ~ line 78 ~ startRep',
-      startRep,
-      endRep
-    );
+
     return findMinimumInsertions(word, start, end - 1, dp)
       .map((c) => `${word.charAt(end)}${c}${word.charAt(end)}`)
       .concat(
