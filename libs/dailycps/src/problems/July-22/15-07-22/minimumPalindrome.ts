@@ -20,7 +20,7 @@ As another example, given the string "google", you should return "elgoogle".
 
 export function createMinimumPalindrome(input: string): string {
   const dp = [...Array(input.length)].map(() => {
-    return [...Array(input.length)].map(() => -1);
+    return [...Array(input.length)].map<string[]>(() => []);
   });
   const min = findMinimumInsertions(input, 0, input.length - 1, dp);
 
@@ -40,47 +40,39 @@ function findMinimumInsertions(
   word: string,
   start: number,
   end: number,
-  dp: number[][] = []
+  dp: string[][][] = []
 ): string[] {
   // if (dp[start][end] !== -1) {
   //   return dp[start][end];
   // }
   // Base Cases
   if (start > end) {
-    return [];
-    // return Number.MAX_VALUE;
+    dp[start][end] = [];
+    return dp[start][end];
   }
 
   if (start === end) {
-    // dp[start][end] = 0;
-    return [`${word.charAt(start)}`];
-    // return 0;
+    dp[start][end] = [`${word.charAt(start)}`];
+    return dp[start][end];
   }
 
   if (start === end - 1) {
-    // dp[start][end] = word[start] == word[end] ? 0 : 1;
-    return word.charAt(start) === word.charAt(end)
-      ? [`${word.charAt(start)}${word.charAt(end)}`]
-      : [
-          `${word.charAt(start)}${word.charAt(end)}${word.charAt(start)}`,
-          `${word.charAt(end)}${word.charAt(start)}${word.charAt(end)}`,
-        ];
-    // return dp[start][end];
+    dp[start][end] =
+      word.charAt(start) === word.charAt(end)
+        ? [`${word.charAt(start)}${word.charAt(end)}`]
+        : [
+            `${word.charAt(start)}${word.charAt(end)}${word.charAt(start)}`,
+            `${word.charAt(end)}${word.charAt(start)}${word.charAt(end)}`,
+          ];
+    return dp[start][end];
   }
 
   if (word.charAt(start) === word.charAt(end)) {
-    // dp[start][end] = findMinimumInsertions(word, start + 1, end - 1, dp);
-    return findMinimumInsertions(word, start + 1, end - 1, dp).map(
+    dp[start][end] = findMinimumInsertions(word, start + 1, end - 1, dp).map(
       (c) => `${word.charAt(start)}${c}${word.charAt(end)}`
     );
   } else {
-    // dp[start][end] =
-    //   Math.min(
-    //     findMinimumInsertions(word, start, end - 1, dp),
-    //     findMinimumInsertions(word, start + 1, end, dp)
-    //   ) + 1;
-
-    return findMinimumInsertions(word, start, end - 1, dp)
+    dp[start][end] = findMinimumInsertions(word, start, end - 1, dp)
       .map((c) => `${word.charAt(end)}${c}${word.charAt(end)}`)
       .concat(
         findMinimumInsertions(word, start + 1, end, dp).map(
@@ -89,7 +81,7 @@ function findMinimumInsertions(
       );
   }
 
-  // return dp[start][end];
+  return dp[start][end];
 }
 
 function isPalindrome(word: string): boolean {
