@@ -23,4 +23,12 @@ describe('Max Heap', () => {
     expect(heap.peek()).toEqual(12)
     expect(heap.length).toBe(array.length-1)
   })
+
+  test('Pop', () => {
+    const heap = new MaxHeap<number>(array);
+    const poppedItem = heap.pop()
+    expect(poppedItem).toEqual(13)
+    expect(heap.peek()).toEqual(12)
+    expect(heap.length).toEqual(array.length - 1)
+  })
 });

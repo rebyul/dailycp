@@ -6,7 +6,7 @@ export class MaxHeap<T> implements IHeap<T> {
     return this.heap.length;
   }
 
-  constructor(array: T[]) {
+  constructor(array: T[] = []) {
     array.forEach((element) => {
       this.insert(element);
     });
@@ -58,6 +58,11 @@ export class MaxHeap<T> implements IHeap<T> {
     }
   }
 
+  pop(): T {
+    const topItem = this.heap[0];
+    this.remove(topItem);
+    return topItem;
+  }
   private sortDown(index: number) {
     if (this.heap.length < 1) {
       return;

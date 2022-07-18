@@ -41,6 +41,12 @@ export class MinHeap<T> implements IHeap<T> {
     this.sortDown(0);
   }
 
+  pop(): T {
+    const topItem = this.heap[0];
+    this.remove(topItem);
+    return topItem;
+  }
+
   private sortDown(index: number) {
     if (this.heap.length < 1) {
       return;

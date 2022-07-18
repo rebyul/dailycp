@@ -23,4 +23,12 @@ describe('Min heap', () => {
     expect(heap.peek()).toEqual(5)
     expect(heap.length).toEqual(array.length - 1)
   })
+
+  test('Pop', () => {
+    const heap = new MinHeap<number>(array);
+    const poppedItem = heap.pop()
+    expect(poppedItem).toEqual(4)
+    expect(heap.peek()).toEqual(5)
+    expect(heap.length).toEqual(array.length - 1)
+  })
 });
