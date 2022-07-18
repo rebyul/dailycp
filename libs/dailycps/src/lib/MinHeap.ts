@@ -2,7 +2,9 @@ import { IHeap } from './IHeap';
 
 export class MinHeap<T> implements IHeap<T> {
   private heap: T[] = [];
-  public length = MinHeap.length;
+  get length(): number {
+    return this.heap.length;
+  }
 
   constructor(heap: T[] = []) {
     heap.forEach((n) => {

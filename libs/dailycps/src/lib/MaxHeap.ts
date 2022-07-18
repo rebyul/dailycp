@@ -1,8 +1,10 @@
 import { IHeap } from './IHeap';
 
 export class MaxHeap<T> implements IHeap<T> {
-  private heap: T[] = [];
-  public length: number = this.heap.length;
+  public heap: T[] = [];
+  get length(): number {
+    return this.heap.length;
+  }
 
   constructor(array: T[]) {
     array.forEach((element) => {
