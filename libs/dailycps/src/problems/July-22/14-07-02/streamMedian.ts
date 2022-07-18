@@ -16,34 +16,29 @@ For example, given the sequence [2, 1, 5, 7, 2, 0, 5], your algorithm should pri
 2
 2
  */
+
+import { MaxHeap, MinHeap } from '../../../../../../libs/dailycps/src/lib';
+
 import { Stream } from 'stream';
-// [2]
-// left = null median = 2 right = null
-// [2,1]
-// left = 2 median = 2 right = null
-// left = 1 median = 2
-// [2,1,5]
-// left = 1 right = 5
+
 export function streamMedian(numbers: Stream): Stream {
   const outputStream = new Stream();
-  let leftMedian = Number.NEGATIVE_INFINITY,
-    median = NaN,
-    rightMedian = Number.POSITIVE_INFINITY,
-    isEven = true;
-
+  const leftHeap = new MaxHeap<number>(),
+    rightHeap = new MinHeap<number>();
   numbers.on('newNumber', (number: number) => {
-    isEven = !isEven;
+    let median;
 
-    if (isNaN(median)) {
-      median = number;
-      return;
+    rightHeap.insert(number);
+
+    if (rightHeap.length - leftHeap.length > 1) {
+      leftHeap.insert(rightHeap.pop());
     }
 
-    if (number < median && number > leftMedian) {
-      leftMedian = number;
-    } else if (number < leftMedian)
-      median = isEven ? (leftMedian + rightMedian) / 2 : leftMedian;
-
+    if (leftHeap.length === rightHeap.length) {
+      median = (rightHeap.peek() + leftHeap.peek()) / 2;
+    } else {
+      median = rightHeap.peek();
+    }
     outputStream.emit('newMedian', median);
   });
 
