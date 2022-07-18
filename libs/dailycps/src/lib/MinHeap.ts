@@ -2,18 +2,12 @@ import { IHeap } from './IHeap';
 
 export class MinHeap<T> implements IHeap<T> {
   private heap: T[] = [];
+  public length = MinHeap.length;
 
   constructor(heap: T[] = []) {
-    this.heap = heap;
-    console.log(
-      '🚀 ~ file: MinHeap.ts ~ line 8 ~ MinHeap<T> ~ constructor ~ this.heap',
-      this.heap
-    );
-    this.heapify();
-    console.log(
-      '🚀 ~ file: MinHeap.ts ~ line 8 ~ MinHeap<T> ~ constructor ~ this.heap',
-      this.heap
-    );
+    heap.forEach((n) => {
+      this.insert(n);
+    });
   }
 
   peek() {
@@ -22,8 +16,7 @@ export class MinHeap<T> implements IHeap<T> {
 
   insert(item: T) {
     this.heap.push(item);
-    this.heapify();
-    // console.log(this.heap);
+    this.sortUp(this.heap.length - 1);
   }
 
   remove(item: T) {
@@ -43,27 +36,47 @@ export class MinHeap<T> implements IHeap<T> {
     this.heap.splice(this.heap.length - 1, 1);
 
     // Restore min heap property
-    this.heapify();
+    this.sortDown(0);
   }
 
-  private heapify() {
-    if (this.heap.length > 0) {
-      let currentIndex = this.heap.length - 1,
-        parentIndex = Math.floor((currentIndex - 1) / 2);
+  private sortDown(index: number) {
+    if (this.heap.length < 1) {
+      return;
+    }
 
-      while (
-        currentIndex > 0 &&
-        this.heap[parentIndex] > this.heap[currentIndex]
+    const sortDownValue = this.heap[index];
+    let childIndex;
+
+    for (; index * 2 < this.heap.length; index = childIndex) {
+      childIndex = index * 2 + 1;
+
+      // Choose the smaller of the two (left, right) children
+      if (
+        childIndex < this.heap.length - 1 &&
+        this.heap[childIndex] > this.heap[childIndex + 1]
       ) {
-        [this.heap[parentIndex], this.heap[currentIndex]] = [
-          this.heap[currentIndex],
-          this.heap[parentIndex],
-        ];
-        currentIndex = parentIndex;
-        parentIndex = Math.floor((currentIndex - 1) / 2);
+        childIndex++;
       }
+
+      if (sortDownValue > this.heap[childIndex]) {
+        this.heap[index] = this.heap[childIndex];
+      } else {
+        break;
+      }
+    }
+
+    this.heap[index] = sortDownValue;
+  }
+
+  private sortUp(index: number) {
+    if (this.heap.length > 1) {
+      for (let i = index; i > 0; i = Math.floor((i - 1) / 2))
+        if (this.heap[i] < this.heap[Math.floor((i - 1) / 2)]) {
+          [this.heap[Math.floor((i - 1) / 2)], this.heap[i]] = [
+            this.heap[i],
+            this.heap[Math.floor((i - 1) / 2)],
+          ];
+        }
     }
   }
 }
-
-[0, 1, 2, 3, 4, 5, 6];
