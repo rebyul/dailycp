@@ -40,6 +40,6 @@ function helper(set: Set<number>): Set<Set<number>> {
 
     iter = copy.values().next();
   }
-  console.log('🚀 ~ file: powerSets.ts ~ line 40 ~ helper ~ result', result);
+
   return result;
 }
