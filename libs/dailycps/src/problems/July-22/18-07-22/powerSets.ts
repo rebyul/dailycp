@@ -8,6 +8,8 @@ For example, given the set {1, 2, 3}, it should return {{}, {1}, {2}, {3}, {1, 2
 You may also use a list or array to represent a set.
  */
 
+// Time complexity: O(2^n) where n is the size of the set
+// Space complexity O(2^n)
 export function createPowerSet(set: Set<number>): Set<Set<number>> {
   const result: Set<Set<number>> = new Set(new Set([]));
   result.add(new Set([]));
@@ -17,6 +19,9 @@ export function createPowerSet(set: Set<number>): Set<Set<number>> {
 }
 
 function helper(set: Set<number>): Set<Set<number>> {
+  if (set.size === 0) {
+    return new Set();
+  }
   const result: Set<Set<number>> = new Set(),
     copy = new Set(set);
   let iter = copy.values().next();
@@ -35,5 +40,6 @@ function helper(set: Set<number>): Set<Set<number>> {
 
     iter = copy.values().next();
   }
+  console.log('🚀 ~ file: powerSets.ts ~ line 40 ~ helper ~ result', result);
   return result;
 }
