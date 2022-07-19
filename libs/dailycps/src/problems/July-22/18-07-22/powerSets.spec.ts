@@ -16,9 +16,13 @@ describe('Power sets', () => {
       ]),
     ],
   ])('.createPowerSet(%p) returns %p', (set, result) => {
-    const returnValue = [...createPowerSet(set).values()];
+    const returnValueKeysArray = [...createPowerSet(set).values()].map((s) => {
+      return [...s.keys()];
+    });
 
-    expect(returnValue).toHaveLength([...result.values()].length);
-    expect(returnValue).toEqual(expect.arrayContaining([...result.values()]));
+    expect(returnValueKeysArray).toHaveLength([...result.values()].length);
+    expect(returnValueKeysArray).toEqual(
+      expect.arrayContaining([...result].map((s) => [...s.keys()]))
+    );
   });
 });

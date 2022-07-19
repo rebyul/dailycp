@@ -27,11 +27,10 @@ function helper(set: Set<number>): Set<Set<number>> {
     // Remove added result
     copy.delete(iter.value);
 
-    const suffixes = helper(copy);
-
-    for (const v of suffixes.values()) {
-      result.add(new Set([iter.value, ...v.values()]));
-    }
+    // Recursively call itself with copied input minus added single value
+    [...helper(copy).values()].forEach((v) =>
+      result.add(new Set([iter.value, ...v.values()]))
+    );
 
     iter = copy.values().next();
   }
