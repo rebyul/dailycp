@@ -29,6 +29,7 @@ function helper(set: Set<number>): Set<Set<number>> {
 
     // Recursively call itself with copied input minus added single value
     [...helper(copy).values()].forEach((v) =>
+      // Prepend the current value to all suffix combinations and add them to results
       result.add(new Set([iter.value, ...v.values()]))
     );
 
