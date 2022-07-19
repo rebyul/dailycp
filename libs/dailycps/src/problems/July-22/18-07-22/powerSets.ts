@@ -43,3 +43,40 @@ function helper(set: Set<number>): Set<Set<number>> {
 
   return result;
 }
+
+// Online solution from https://github.com/iamvictorli/Daily-Coding-Problem/blob/master/solutions/31-40/Problem37.js
+// Follows the output sequence exactly
+// export function createPowerSet(input: Set<number>) {
+//   const nums = [...input.keys()];
+//   const list: number[][] = [];
+//   nums.sort((a, b) => a - b);
+//   helper(nums, list, [], 0);
+//   console.log('🚀 ~ file: powerSets.ts ~ line 20 ~ powerSet ~ list', list);
+//   return new Set(list.map((v) => new Set(v)));
+// }
+
+// /**
+//  * Backtracking recursive function helper
+//  * @param {number[]} nums
+//  * @param {number[][]} list
+//  * @param {number[]} listSoFar
+//  * @param {number} position
+//  */
+// function helper(
+//   nums: number[],
+//   list: number[][],
+//   listSoFar: number[],
+//   position: number
+// ) {
+//   list.push([...listSoFar]);
+//   console.log('🚀 ~ file: powerSets.ts ~ line 36 ~ list', list);
+//   if (position >= nums.length) return;
+
+//   for (let i = position; i < nums.length; i++) {
+//     const num = nums[i];
+//     listSoFar.push(num);
+
+//     helper(nums, list, listSoFar, i + 1);
+//     listSoFar.pop();
+//   }
+// }
