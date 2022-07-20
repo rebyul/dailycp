@@ -43,7 +43,6 @@ function testExchange(
     // For a given currency, try to convert to back to current currency
     const rateBackToCurrent = currencies[targetCurrency][originalCurrency];
     if (rateBackToCurrent * currentRate > 1) {
-      console.log(rateBackToCurrent * currentRate);
       return true;
     }
     testExchange(

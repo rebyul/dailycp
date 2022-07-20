@@ -24,10 +24,6 @@ export function createMinimumPalindrome(input: string): string {
   });
   const min = findMinimumInsertions(input, 0, input.length - 1, dp);
 
-  console.log(
-    '🚀 ~ file: minimumPalindrome.ts ~ line 32 ~ createMinimumPalindrome ~ min.sort()',
-    min.sort()
-  );
   return min.sort((a, b) => {
     if (a.length === b.length) {
       return a < b ? -1 : 1;
@@ -82,18 +78,4 @@ function findMinimumInsertions(
   }
 
   return dp[start][end];
-}
-
-function isPalindrome(word: string): boolean {
-  for (let i = 0; i <= word.length / 2; i++) {
-    for (let j = i + 1; j <= word.length / 2; j++) {
-      const front = word.slice(i, j),
-        back = word.slice(j, j * 2);
-
-      if (front === [...back].reverse().join('')) {
-        return true;
-      }
-    }
-  }
-  return false;
 }
