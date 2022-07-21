@@ -11,75 +11,65 @@ export function autocomplete(
   dictionary: string[],
   searchTerm: string
 ): string[] {
-  const wordCache = buildDictionary(dictionary);
+  const wordTrie = buildTrie(dictionary);
 
-  let suffixHits: WordTrie | undefined = wordCache.get(searchTerm.charAt(0));
+  let currentTrie = wordTrie;
+  for (let i = 0; i < searchTerm.length; i++) {
+    if (!currentTrie) return [];
 
-  for (let i = 1; i < searchTerm.length; i++) {
-    const char = searchTerm.charAt(i);
     // load next letter children to be searched
-    suffixHits = suffixHits?.children.get(char);
-    if (suffixHits) {
-      continue;
-    } else {
-      return []; // Short circuit no dictionary match
-    }
+    currentTrie = currentTrie.children[searchTerm.charAt(i)];
   }
 
-  if (!suffixHits) return [];
-
-  const result = buildString(suffixHits, searchTerm);
+  const result = buildString(currentTrie, searchTerm);
 
   return result;
 }
 
-function buildString(suffixHit: WordTrie, base: string): string[] {
+class Trie {
+  constructor(
+    public value: string | null,
+    public isWord: boolean,
+    public children: { [key: string]: Trie } = {}
+  ) {}
+}
+
+function buildString(suffixHit: Trie, base: string): string[] {
   const results: string[] = [];
-  // If there are no suffix branches, return the base
   if (suffixHit.isWord) {
-    results.push(`${base}`);
+    results.push(base);
   }
-  const suffixCombinations = [...suffixHit.children.values()].flatMap((c) =>
-    buildString(c, `${base}${c.letter}`)
+
+  const suffixCombinations = Object.values(suffixHit.children).flatMap((trie) =>
+    buildString(trie, `${base}${trie.value}`)
   );
 
   return results.concat(suffixCombinations);
 }
 
-function buildDictionary(dictionary: string[]): Map<string, WordTrie> {
-  // For each word in the dictionary, build a trie of each letter in each word
-  // that graphs out every letter combination. At the end of each word, mark the node as a
-  // complete word
-  const dict = new Map<string, WordTrie>();
+function buildTrie(dictionary: string[]): Trie {
+  const root = new Trie(null, false);
 
-  dictionary.forEach((word) => {
-    // Initialize current trie to first letter entry
-    let currentMap = dict;
+  for (const word of dictionary) {
+    let current = root;
 
+    // At the end of each word, mark the node isWord = true if it's a complete word
     for (let i = 0; i < word.length; i++) {
-      const letter = word.charAt(i);
-      const existing = currentMap.get(letter);
-      // If the letter has been visited, only update its isWord
-      if (existing) {
-        existing.isWord = existing.isWord || i === word.length - 1;
+      const letter = word[i];
+
+      const existingEntry = current.children[letter];
+      // If the letter already exists, only update its isWord
+      if (existingEntry) {
+        if (i === word.length - 1) {
+          existingEntry.isWord = true;
+        }
         // set current map to next letters of current
-        currentMap = existing.children;
-        continue;
+        current = existingEntry;
+      } else {
+        current.children[letter] = new Trie(letter, i === word.length - 1);
+        current = current.children[letter];
       }
-
-      const newEntry = new WordTrie(letter, i === word.length - 1);
-      currentMap.set(letter, newEntry);
-      currentMap = newEntry.children;
     }
-  });
-
-  return dict;
-}
-
-class WordTrie {
-  constructor(
-    public letter: string,
-    public isWord: boolean = false,
-    public children: Map<string, WordTrie> = new Map()
-  ) {}
+  }
+  return root;
 }
