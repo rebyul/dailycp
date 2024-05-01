@@ -22,15 +22,15 @@ describe('Flight itinery', () => {
     ],
     [
       [
-        ['A', 'B'],
         ['A', 'C'],
+        ['A', 'B'],
         ['B', 'C'],
         ['C', 'A'],
       ],
       'A',
       ['A', 'B', 'C', 'A', 'C'],
     ],
-  ])('.findItinery(%p, %s) returns %p', (flights, start, itinery) => {
+  ])('.findItinery2(%p, %s) returns %p', (flights, start, itinery) => {
     expect(findItinery(flights, start)).toEqual(itinery);
   });
 });
