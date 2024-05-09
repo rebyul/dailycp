@@ -1,5 +1,3 @@
-
-
 # Dailycp
 
 This project was generated using [Nx](https://nx.dev).
@@ -27,7 +25,7 @@ Below are our core plugins:
 - [Express](https://expressjs.com)
   - `npm install --save-dev @nrwl/express`
 - [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+  - `npm install --save-dev @nx/node`
 
 There are also many [community plugins](https://nx.dev/community) you could add.
 
@@ -78,8 +76,6 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
 
 ## ☁ Nx Cloud
 
