@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Jest Test",
+      "skipFiles": ["<node_internals>/**"],
+      // "program": "${workspaceFolder}/libs/dailycps/src/problems/July-22/22-07-22/flightItinery.spec.ts",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["--runInBand", "--config=${workspaceFolder}/jest.config.ts"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest - current file",
+      "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "test",
+        "--projectFromPath=${relativeFile}",
+        "--test-file=${fileBaseNameNoExtension}",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
