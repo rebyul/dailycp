@@ -1,5 +1,5 @@
 export const isHoppable = (towers: number[], index = 0): boolean => {
-  if (towers === []) return false;
+  if (towers.length === 0) return false;
 
   const currentHeight = towers[index];
   if (currentHeight === 0) return false;
@@ -19,7 +19,7 @@ export const isHoppable = (towers: number[], index = 0): boolean => {
 };
 
 export const isHoppableDp = (towers: number[], index = 0): boolean => {
-  if (towers === []) return false;
+  if (towers.length === 0) return false;
 
   const cache = new Array(towers.length + 1).fill(false);
   cache[index] = true;
