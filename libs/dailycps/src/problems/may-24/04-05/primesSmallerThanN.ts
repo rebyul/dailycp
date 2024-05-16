@@ -22,14 +22,27 @@ export function findPrimes(input: number): number[] {
   const multiples = filteredNumbers.map((v) =>
     enumerateMultiplesBelow(v, input)
   );
+  console.log(
+    'input',
+    input,
+    'filtered',
+    filteredNumbers,
+    'multiples',
+    multiples
+  );
+  //
   // Mark each multiple as 0 as they are not prime numbers
   for (const multiple of multiples) {
     for (const value of multiple) {
-      filteredNumbers[value] = 0;
+      const valueIndex = filteredNumbers.indexOf(value);
+      if (valueIndex !== -1) {
+        filteredNumbers[valueIndex] = 0;
+      }
     }
   }
+
   // Return all numbers in the original enumeration that isn't null (filter)
-  return filteredNumbers.filter((v) => v === 0);
+  return filteredNumbers.filter((v) => v !== 0);
 }
 
 export function enumerateNumbers(size: number): number[] {
@@ -48,8 +61,10 @@ export function enumerateMultiplesBelow(seed: number, max: number): number[] {
   if (seed === 0 || seed === 1)
     throw Error("Can't generate multiples of 0 or 1");
 
-  let current = seed * 2;
+  // Start with seed number
   const multiples = [];
+  let current = seed * 2;
+
   while (current <= max) {
     multiples.push(current);
     current = current + seed;
