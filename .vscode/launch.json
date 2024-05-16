@@ -9,23 +9,23 @@
       "request": "launch",
       "name": "Jest Test",
       "skipFiles": ["<node_internals>/**"],
-      // "program": "${workspaceFolder}/libs/dailycps/src/problems/July-22/22-07-22/flightItinery.spec.ts",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "cwd": "${workspaceFolder}",
       "args": ["--runInBand", "--config=${workspaceFolder}/jest.config.ts"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Jest - current file",
-      "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
       "cwd": "${workspaceFolder}",
       "args": [
-        "test",
-        "--projectFromPath=${relativeFile}",
-        "--test-file=${fileBaseNameNoExtension}",
-        "--runInBand"
+        "--testPathPattern=${file}",
+        "--runInBand",
+        "--color",
+        "--watchAll=false"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
