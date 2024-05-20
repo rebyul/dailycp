@@ -22,15 +22,7 @@ export function findPrimes(input: number): number[] {
   const multiples = filteredNumbers.map((v) =>
     enumerateMultiplesBelow(v, input)
   );
-  console.log(
-    'input',
-    input,
-    'filtered',
-    filteredNumbers,
-    'multiples',
-    multiples
-  );
-  //
+
   // Mark each multiple as 0 as they are not prime numbers
   for (const multiple of multiples) {
     for (const value of multiple) {

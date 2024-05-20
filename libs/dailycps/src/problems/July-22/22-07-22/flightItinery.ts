@@ -17,7 +17,6 @@ is also a valid itinerary. However, the first one is lexicographically smaller.
 
 export function findItinery(flights: string[][], start: string) {
   const itinerary = findFlights(flights, [start]);
-  console.log('final return', itinerary, flights, start);
   return itinerary;
 }
 
@@ -32,14 +31,13 @@ const findFlights = (
   if (flights.length === 0) return current;
 
   const currentTown = current[current.length - 1];
-  console.log('currentTown', currentTown, 'flights', flights);
+
   const availableCurrentFlights = findStartingFlights(flights, currentTown);
 
   if (
     availableCurrentFlights === null ||
     availableCurrentFlights.length === 0
   ) {
-    console.log('no start from ', currentTown, flights);
     return null;
   }
 
@@ -47,7 +45,6 @@ const findFlights = (
     .map((f) => f[1])
     .sort((a, b) => (a < b ? -1 : 1));
 
-  console.log('can go to ', orderedNext);
   const potentialItineries = orderedNext
     .map((n) => {
       return findFlights(
@@ -57,7 +54,6 @@ const findFlights = (
     })
     .filter((i) => i !== null);
 
-  console.log('potentials', potentialItineries);
   return potentialItineries && potentialItineries.length > 0
     ? potentialItineries[0]
     : null;
