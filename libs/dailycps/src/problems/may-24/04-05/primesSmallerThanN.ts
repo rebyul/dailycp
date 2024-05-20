@@ -16,25 +16,23 @@ export function findPrimes(input: number): number[] {
   // Enumerate all numbers from 2 to input
   const numbers = enumerateNumbers(input);
   // Filter 0 and 1 as they are non prime numbers by definition
-  const filteredNumbers = filterZero(filterOne(numbers));
-  // For each number from the first enumerated number, create a multiple array
-  // that is less than `input`
-  const multiples = filteredNumbers.map((v) =>
-    enumerateMultiplesBelow(v, input)
-  );
+  const potentialPrimes = new Set(filterZero(filterOne(numbers)));
 
-  // Mark each multiple as 0 as they are not prime numbers
-  for (const multiple of multiples) {
-    for (const value of multiple) {
-      const valueIndex = filteredNumbers.indexOf(value);
-      if (valueIndex !== -1) {
-        filteredNumbers[valueIndex] = 0;
+  // Only generate multiple factors that are less than half the input
+  // Any higher multiples greater than half the input are too large, so ignore them.
+  const maxInputFactor = Math.floor(input / 2);
+
+  for (const value of potentialPrimes) {
+    if (value <= maxInputFactor) {
+      for (const m of enumerateMultiplesBelow(value, input)) {
+        // Remove multiples from potential primes
+        potentialPrimes.delete(m);
       }
     }
   }
 
   // Return all numbers in the original enumeration that isn't null (filter)
-  return filteredNumbers.filter((v) => v !== 0);
+  return Array.from(potentialPrimes.values());
 }
 
 export function enumerateNumbers(size: number): number[] {
