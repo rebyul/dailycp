@@ -33,6 +33,21 @@ export function findPrimes(input: number): number[] {
   return Array.from(potentialPrimes.values());
 }
 
+function* indefinitelyFindPrimes() {
+  let start = 2;
+  while (true) {
+    yield findPrimes(start).pop();
+    start++;
+  }
+}
+
+function aiya() {
+  console.log('test');
+  for (const n of indefinitelyFindPrimes()) {
+    console.log(n);
+  }
+}
+
 function generatePotentialPrimes(input: number): Set<number> {
   if (input === 0) return new Set();
   if (input === 1) return new Set([1]);
@@ -42,14 +57,6 @@ function generatePotentialPrimes(input: number): Set<number> {
 export function enumerateNumbers(size: number): number[] {
   return [...Array(size)].map((_, i) => i + 1);
 }
-
-// function filterZero(numbers: number[]): number[] {
-//   return numbers.filter((n) => n !== 0);
-// }
-//
-// function filterOne(numbers: number[]): number[] {
-//   return numbers.filter((n) => n !== 1);
-// }
 
 export function enumerateMultiplesBelow(seed: number, max: number): number[] {
   if (seed === 0 || seed === 1)
