@@ -1,7 +1,7 @@
 import {
   enumerateMultiplesBelow,
   enumerateNumbers,
-  findPrimes,
+  findPrimesSmallerThan,
 } from './primesSmallerThanN';
 
 describe('Primes smaller than N', () => {
@@ -26,12 +26,8 @@ describe('Primes smaller than N', () => {
     [1, []],
     [2, [2]],
     [3, [2, 3]],
-    // [10, [2, 3, 5, 7]],
+    [10, [2, 3, 5, 7]],
   ])('.findPrimes(%p) returns %p', (input, result) => {
-    expect(findPrimes(input)).toEqual(result);
-  });
-
-  test('find primes below 10', () => {
-    expect(findPrimes(10)).toEqual([2, 3, 5, 7]);
+    expect(findPrimesSmallerThan(input)).toEqual(result);
   });
 });

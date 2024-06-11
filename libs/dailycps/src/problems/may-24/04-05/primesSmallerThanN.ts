@@ -12,40 +12,23 @@
 //
 // Bonus: Create a generator that produces primes indefinitely (that is, without taking N as an input).
 
-export function findPrimes(input: number): number[] {
+export function findPrimesSmallerThan(input: number): number[] {
   if (input === 0 || input === 1) return [];
 
   const potentialPrimes = generatePotentialPrimes(input);
-  // Only generate multiple factors that are less than half the input
-  // Any higher multiples greater than half the input are too large, so ignore them.
-  const maxInputFactor = Math.floor(input / 2);
 
-  for (const value of potentialPrimes) {
-    if (value <= maxInputFactor) {
-      for (const m of enumerateMultiplesBelow(value, input)) {
-        // Remove multiples from potential primes
-        potentialPrimes.delete(m);
+  // Only consider numbers smaller than i^2 as I DONT KNOW TODAY
+  for (let i = 2; i * i <= input; i++) {
+    if (potentialPrimes.has(i)) {
+      // potentialPrimes.delete(i);
+      for (let j = i * i; j <= input; j += i) {
+        potentialPrimes.delete(j);
       }
     }
   }
 
   // Return all numbers in the original enumeration that isn't null (filter)
   return Array.from(potentialPrimes.values());
-}
-
-function* indefinitelyFindPrimes() {
-  let start = 2;
-  while (true) {
-    yield findPrimes(start).pop();
-    start++;
-  }
-}
-
-function aiya() {
-  console.log('test');
-  for (const n of indefinitelyFindPrimes()) {
-    console.log(n);
-  }
 }
 
 function generatePotentialPrimes(input: number): Set<number> {
@@ -58,18 +41,22 @@ export function enumerateNumbers(size: number): number[] {
   return [...Array(size)].map((_, i) => i + 1);
 }
 
-export function enumerateMultiplesBelow(seed: number, max: number): number[] {
+export function enumerateMultiplesBelow(
+  seed: number,
+  max: number,
+  memoizedMultiples: Set<number> = new Set()
+): number[] {
   if (seed === 0 || seed === 1)
     throw Error("Can't generate multiples of 0 or 1");
 
   // Start with seed number
-  const multiples = [];
+  // const multiples = [];
   let current = seed * 2;
 
   while (current <= max) {
-    multiples.push(current);
+    memoizedMultiples.add(current);
     current = current + seed;
   }
 
-  return multiples;
+  return [...memoizedMultiples.values()];
 }
