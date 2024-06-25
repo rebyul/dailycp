@@ -1,4 +1,4 @@
-import { IHeap } from './IHeap';
+import type { IHeap } from './IHeap';
 
 export class MinHeap<T> implements IHeap<T> {
   private heap: T[] = [];
