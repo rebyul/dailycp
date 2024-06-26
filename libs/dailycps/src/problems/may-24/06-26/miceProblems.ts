@@ -19,7 +19,7 @@ export function findMinimumDistance(mice: number[], holes: number[]): number {
   // currentMax = getMaximum(distances, mice, holes, Number.MIN_VALUE);
   const cum = [];
   for (let i = 0; i < holes.length; i++) {
-    console.log('---------starting max', Math.abs(mice[0] - holes[i]));
+    // console.log('---------starting max', Math.abs(mice[0] - holes[i]));
     const result = getMaximum(
       mice.filter((m) => m !== mice[0]),
       holes.filter((h) => h !== holes[i]),
@@ -30,8 +30,32 @@ export function findMinimumDistance(mice: number[], holes: number[]): number {
       currentMax = result;
     }
   }
-  console.log(cum);
+  // console.log(cum);
   return currentMax;
+}
+
+// Try to find overlapping distances between the mice and holes arrays
+// Sort mice and holes
+// Find distance between mice min and hole max and mice max vs hole min
+// Take the lower of the two and that should be the min.
+export function findMin(mice: number[], holes: number[]): number {
+  const orderedMice = mice.sort((a, b) => (a < b ? -1 : 1));
+  const orderedHoles = holes.sort((a, b) => (a < b ? -1 : 1));
+  const firstMin = Math.max(
+    Math.abs(orderedMice[0] - orderedHoles[0]), // Min to min
+    Math.abs(
+      orderedMice[orderedMice.length - 1] -
+        orderedHoles[orderedHoles.length - 1]
+    ) // max to max
+  );
+  // const secondMin = Math.max(
+  //   Math.abs(orderedMice[orderedMice.length - 1] - orderedHoles[0]), // max to min
+  //   Math.abs(orderedMice[0] - orderedHoles[orderedHoles.length - 1]) // min to max
+  // );
+
+  // console.log(orderedMice, orderedHoles, firstMin, secondMin);
+  return firstMin;
+  // return Math.min(firstMin, secondMin);
 }
 
 function generateDistances(mice: number[], holes: number[]): number[][] {
@@ -59,12 +83,12 @@ function getMaximum(
   currentMaxDistance: number
 ): number {
   if (rMicePositions.length === 1) {
-    console.log(
-      '------------------------- ending possibility min ',
-      Math.abs(rMicePositions[0] - rHolesPositions[0]),
-      'given current max',
-      currentMaxDistance
-    );
+    // console.log(
+    //   '------------------------- ending possibility min ',
+    //   Math.abs(rMicePositions[0] - rHolesPositions[0]),
+    //   'given current max',
+    //   currentMaxDistance
+    // );
     return Math.max(
       currentMaxDistance,
       Math.abs(rMicePositions[0] - rHolesPositions[0])
@@ -75,14 +99,14 @@ function getMaximum(
 
   for (let mIndex = 0; mIndex < rMicePositions.length; mIndex++) {
     for (let hIndex = 0; hIndex < rHolesPositions.length; hIndex++) {
-      console.log(
-        '------------------------- at mouse ',
-        rMicePositions[mIndex],
-        'hole',
-        rHolesPositions[hIndex],
-        'current distance',
-        Math.abs(rMicePositions[mIndex] - rHolesPositions[hIndex])
-      );
+      // console.log(
+      //   '------------------------- at mouse ',
+      //   rMicePositions[mIndex],
+      //   'hole',
+      //   rHolesPositions[hIndex],
+      //   'current distance',
+      //   Math.abs(rMicePositions[mIndex] - rHolesPositions[hIndex])
+      // );
       const nextMax = getMaximum(
         rMicePositions.filter((v) => v !== rMicePositions[mIndex]),
         rHolesPositions.filter((v) => v !== rHolesPositions[hIndex]),
@@ -105,7 +129,7 @@ function getMaximum(
         // Math.abs(rMicePositions[mIndex] - rHolesPositions[hIndex]),
         nextMax
       );
-      console.log('-----------ending one route with ', localmax);
+      // console.log('-----------ending one route with ', localmax);
     }
   }
 
