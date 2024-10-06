@@ -57,7 +57,7 @@ describe('merge two binary trees', () => {
     const tree1 = new GenericTree<string>('abc', undefined, undefined);
     const tree2 = new GenericTree<string>('cbd', undefined, undefined);
     expect(() => mergeTree(tree1, tree2)).toThrow(
-      'No merger available for given type'
+      Error('No merger available for given type')
     );
   });
 });

@@ -41,7 +41,7 @@ function isNumber(x: any): x is number {
 
 function mergeNumbers<T = number>(left?: T, right?: T): T {
   if (!isNumber(left)) {
-    if (right === undefined) throw new Error('merging both null');
+    if (right === undefined) throw Error('merging both null');
     return right;
   }
   if (!isNumber(right)) {
@@ -55,5 +55,5 @@ function genericMergeValues<T = number>(left: T, right: T): T {
     return mergeNumbers(left, right);
   }
 
-  throw new Error('No merger available for given type');
+  throw Error('No merger available for given type');
 }
