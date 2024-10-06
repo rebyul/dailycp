@@ -60,4 +60,29 @@ describe('merge two binary trees', () => {
       Error('No merger available for given type')
     );
   });
+
+  it('example from geekhack', () => {
+    const root1 = new GenericTree<number>(1);
+    root1.left = new GenericTree<number>(2);
+    root1.right = new GenericTree<number>(3);
+    root1.left.left = new GenericTree<number>(4);
+    root1.left.right = new GenericTree<number>(5);
+    root1.right.right = new GenericTree<number>(6);
+
+    const root2 = new GenericTree<number>(4);
+    root2.left = new GenericTree<number>(1);
+    root2.right = new GenericTree<number>(7);
+    root2.left.left = new GenericTree<number>(3);
+    root2.right.left = new GenericTree<number>(2);
+    root2.right.right = new GenericTree<number>(6);
+
+    const result = mergeTree(root1, root2);
+    expect(result?.value).toEqual(5);
+    expect(result?.left?.value).toEqual(3);
+    expect(result?.right?.value).toEqual(10);
+    expect(result?.left?.left?.value).toEqual(7);
+    expect(result?.left?.right?.value).toEqual(5);
+    expect(result?.right?.left?.value).toEqual(2);
+    expect(result?.right?.right?.value).toEqual(12);
+  });
 });
