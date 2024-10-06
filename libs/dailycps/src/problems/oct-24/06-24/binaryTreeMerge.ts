@@ -7,17 +7,17 @@ If only one input tree has a node in a given position, the corresponding node in
 
 */
 
-export class NumberTree {
+export class GenericTree<T> {
   constructor(
-    public value?: number,
-    public left?: NumberTree,
-    public right?: NumberTree
-  ) {}
+    public value: T,
+    public left?: GenericTree<T>,
+    public right?: GenericTree<T>
+  ) { }
 }
-export function mergeTree(
-  tree1?: NumberTree,
-  tree2?: NumberTree
-): NumberTree | undefined {
+export function mergeTree<T>(
+  tree1?: GenericTree<T>,
+  tree2?: GenericTree<T>
+): GenericTree<T> | undefined {
   if (!tree1) {
     return tree2;
   }
@@ -25,21 +25,31 @@ export function mergeTree(
     return tree1;
   }
 
-  const result = new NumberTree(0);
-
-  result.value = mergeValues(tree1?.value, tree2?.value);
-  result.left = mergeTree(tree1?.left, tree2?.left);
-  result.right = mergeTree(tree1?.right, tree2?.right);
+  const result = new GenericTree<T>(genericMergeValues<T>(tree1.value, tree2.value), mergeTree(tree1.left, tree2.left), mergeTree(tree1.right, tree2.right));
 
   return result;
 }
 
-function mergeValues(left?: number, right?: number) {
-  if (!left || Number.isNaN(left)) {
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+function isNumber(x: any): x is number {
+  return typeof x === 'number';
+}
+
+function mergeNumbers<T = number>(left?: T, right?: T): T {
+  if (!isNumber(left)) {
+    if (right === undefined) throw new Error('merging both null');
     return right;
   }
-  if (!right || Number.isNaN(right)) {
+  if (!isNumber(right)) {
     return left;
   }
-  return left + right;
+  return (left + right) as T;
+}
+
+function genericMergeValues<T = number>(left: T, right: T): T {
+  if (isNumber(left) && isNumber(right)) {
+    return mergeNumbers(left, right);
+  }
+
+  throw new Error('No merger available');
 }
