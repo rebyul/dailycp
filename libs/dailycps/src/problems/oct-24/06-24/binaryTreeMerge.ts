@@ -12,7 +12,7 @@ export class GenericTree<T> {
     public value: T,
     public left?: GenericTree<T>,
     public right?: GenericTree<T>
-  ) { }
+  ) {}
 }
 export function mergeTree<T>(
   tree1?: GenericTree<T>,
@@ -25,7 +25,11 @@ export function mergeTree<T>(
     return tree1;
   }
 
-  const result = new GenericTree<T>(genericMergeValues<T>(tree1.value, tree2.value), mergeTree(tree1.left, tree2.left), mergeTree(tree1.right, tree2.right));
+  const result = new GenericTree<T>(
+    genericMergeValues<T>(tree1.value, tree2.value),
+    mergeTree(tree1.left, tree2.left),
+    mergeTree(tree1.right, tree2.right)
+  );
 
   return result;
 }
@@ -51,5 +55,5 @@ function genericMergeValues<T = number>(left: T, right: T): T {
     return mergeNumbers(left, right);
   }
 
-  throw new Error('No merger available');
+  throw new Error('No merger available for given type');
 }

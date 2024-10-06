@@ -6,7 +6,7 @@ Write a program to merge two binary trees. Each node in the new tree should hold
 If only one input tree has a node in a given position, the corresponding node in the new tree should match that input node.
 
 */
-import { mergeTree, GenericTree } from './binaryTreeMerge';
+import { GenericTree, mergeTree } from './binaryTreeMerge';
 
 describe('merge two binary trees', () => {
   it('should merge correctly', () => {
@@ -39,6 +39,7 @@ describe('merge two binary trees', () => {
     expect(result?.left?.value).toEqual(tree1?.left?.value);
     expect(result?.right?.value).toEqual(tree1?.right?.value);
   });
+
   it('should return second tree if first tree is empty', () => {
     const tree2 = new GenericTree<number>(
       1,
@@ -50,5 +51,13 @@ describe('merge two binary trees', () => {
     expect(result?.value).toEqual(tree2.value);
     expect(result?.left?.value).toEqual(tree2?.left?.value);
     expect(result?.right?.value).toEqual(tree2?.right?.value);
+  });
+
+  it('should throw an error if an unsupported tree type is given', () => {
+    const tree1 = new GenericTree<string>('abc', undefined, undefined);
+    const tree2 = new GenericTree<string>('cbd', undefined, undefined);
+    expect(() => mergeTree(tree1, tree2)).toThrow(
+      'No merger available for given type'
+    );
   });
 });
