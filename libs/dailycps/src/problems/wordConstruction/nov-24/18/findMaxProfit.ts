@@ -12,5 +12,15 @@ For example, given k = 2 and the array [5, 2, 4, 0, 1], you should return 3.
  */
 
 export function findMaxProfit(stockPrices: number[], actions: number): number {
+  // Base case
+  if (stockPrices.length < 1) return 0;
+
+  // Other base case
+  if (actions === 0) {
+    throw Error('no buy sell actions');
+  }
+
+  // Other other base case
+  if (stockPrices.length === 1) return stockPrices[0];
   return 3;
 }
