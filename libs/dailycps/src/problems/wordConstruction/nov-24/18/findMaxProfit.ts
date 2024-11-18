@@ -12,15 +12,34 @@ For example, given k = 2 and the array [5, 2, 4, 0, 1], you should return 3.
  */
 
 export function findMaxProfit(stockPrices: number[], actions: number): number {
-  // Base case
-  if (stockPrices.length < 1) return 0;
+  return maxProfitUtil(0, actions, true, stockPrices);
+}
 
-  // Other base case
-  if (actions === 0) {
-    throw Error('no buy sell actions');
+function maxProfitUtil(
+  day: number,
+  actions: number,
+  isBuy: boolean,
+  prices: number[]
+) {
+  if (actions <= 0 || prices.length <= day) {
+    return 0;
   }
 
-  // Other other base case
-  if (stockPrices.length === 1) return stockPrices[0];
-  return 3;
+  let result = 0,
+    profit = 0;
+
+  // If we can buy
+  if (isBuy) {
+    // Buy at current price or skip
+    profit = maxProfitUtil(day + 1, actions, !isBuy, prices) - prices[day];
+    result = Math.max(profit, result);
+  } else {
+    // Sell at current price or skip
+    profit = prices[day] + maxProfitUtil(day + 1, actions - 1, !isBuy, prices);
+    result = Math.max(result, profit);
+  }
+
+  // Skip current price
+  profit = maxProfitUtil(day + 1, actions, isBuy, prices);
+  return Math.max(result, profit);
 }
