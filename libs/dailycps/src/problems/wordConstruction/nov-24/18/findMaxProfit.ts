@@ -12,17 +12,27 @@ For example, given k = 2 and the array [5, 2, 4, 0, 1], you should return 3.
  */
 
 export function findMaxProfit(stockPrices: number[], actions: number): number {
-  return maxProfitUtil(0, actions, true, stockPrices);
+  // Create 3d array memoization of [currentDay][remainingActions][isBuy]
+  const memo = Array.from({ length: stockPrices.length + 1 }, () =>
+    Array.from({ length: actions + 1 }, () => Array(2).fill(-1))
+  );
+
+  return maxProfitUtil(0, actions, 1, stockPrices, memo);
 }
 
 function maxProfitUtil(
   day: number,
   actions: number,
-  isBuy: boolean,
-  prices: number[]
+  isBuy: number,
+  prices: number[],
+  memo: number[][][]
 ) {
   if (actions <= 0 || prices.length <= day) {
     return 0;
+  }
+
+  if (memo[day][actions][isBuy] !== -1) {
+    return memo[day][actions][isBuy];
   }
 
   let result = 0,
@@ -31,15 +41,17 @@ function maxProfitUtil(
   // If we can buy
   if (isBuy) {
     // Buy at current price or skip
-    profit = maxProfitUtil(day + 1, actions, !isBuy, prices) - prices[day];
+    profit = maxProfitUtil(day + 1, actions, 0, prices, memo) - prices[day];
     result = Math.max(profit, result);
   } else {
     // Sell at current price or skip
-    profit = prices[day] + maxProfitUtil(day + 1, actions - 1, !isBuy, prices);
+    profit = prices[day] + maxProfitUtil(day + 1, actions - 1, 1, prices, memo);
     result = Math.max(result, profit);
   }
 
   // Skip current price
-  profit = maxProfitUtil(day + 1, actions, isBuy, prices);
-  return Math.max(result, profit);
+  profit = maxProfitUtil(day + 1, actions, isBuy, prices, memo);
+  result = Math.max(profit, result);
+
+  return (memo[day][actions][isBuy] = result);
 }
