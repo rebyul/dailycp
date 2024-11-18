@@ -1,4 +1,4 @@
-import { BinaryNode } from '../../../lib/BinaryNode';
+import { type BinaryNode } from '../../../lib/BinaryNode';
 /**
  * This problem was asked by Google.
 
