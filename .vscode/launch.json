@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Jest Test",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
       "args": ["--runInBand", "--config=${workspaceFolder}/jest.config.ts"],
       "console": "integratedTerminal",
@@ -19,16 +19,23 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Jest - current file",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
       "args": [
-        "--testPathPattern=${file}",
         "--runInBand",
-        "--color",
-        "--watchAll=false"
+        "--watchAll=false",
+        "--testNamePattern",
+        "${jest.testNamePattern}",
+        "--runTestsByPath",
+        "${file}"
       ],
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
     }
   ]
 }
