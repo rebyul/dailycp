@@ -39,5 +39,31 @@ export class SortingSolution {
 }
 
 export class MooresVotingSolution {
-  majorityElement(arr: number[]) {}
+  majorityElement(arr: number[]) {
+    let candidate = -1;
+    let count = 0;
+
+    for (const item of arr) {
+      if (count === 0) {
+        candidate = item;
+        count++;
+      } else if (candidate === item) {
+        count++;
+      }
+      // if current != candidate
+      else {
+        count--;
+      }
+    }
+
+    // Traverse array to get actual candidate count
+    let actualCount = 0;
+    for (const item of arr) {
+      if (item === candidate) {
+        actualCount++;
+      }
+    }
+
+    return actualCount > arr.length / 2 ? candidate : -1;
+  }
 }
