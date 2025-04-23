@@ -1,5 +1,3 @@
-import { log } from 'console';
-
 export class MapSolution {
   majorityElement(arr: number[]) {
     const itemCountMap: Map<number, number> = new Map();
