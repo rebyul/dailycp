@@ -1,4 +1,8 @@
-import { MapSolution, SortingSolution } from './majorityElement';
+import {
+  MapSolution,
+  MooresVotingSolution,
+  SortingSolution,
+} from './majorityElement';
 
 describe('Majority element', () => {
   test.each([
@@ -17,6 +21,17 @@ describe('Majority element', () => {
     'Sorting solution: Find majority element in %p returns %s',
     (arr, outcome) => {
       const solution = new SortingSolution();
+      expect(solution.majorityElement(arr)).toEqual(outcome);
+    }
+  );
+  test.each([
+    [[1, 1, 2, 1, 3, 5, 1], 1],
+    [[7], 7],
+    [[2, 13], -1],
+  ])(
+    "Moore's voting solution: Find majority element in %p returns %s",
+    (arr, outcome) => {
+      const solution = new MooresVotingSolution();
       expect(solution.majorityElement(arr)).toEqual(outcome);
     }
   );
