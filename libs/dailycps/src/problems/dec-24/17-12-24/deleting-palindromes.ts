@@ -1,5 +1,3 @@
-import { log } from 'node:console';
-
 /**
   This problem was asked by Google.
 
