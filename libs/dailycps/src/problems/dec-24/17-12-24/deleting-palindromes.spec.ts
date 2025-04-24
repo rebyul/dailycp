@@ -1,7 +1,32 @@
-import { isPalindrome, splitArrayEvenly } from './deleting-palindromes';
+import {
+  deletingPalindromes,
+  isPalindrome,
+  removeCharAt,
+  splitArrayEvenly,
+} from './deleting-palindromes';
 
 describe('Deleting palindromes', () => {
   test.concurrent.each([
+    [1, 'wawt', 'waw'],
+    // [2, 'waterrfetawx', 'waterretaw']
+  ])(
+    'Deleting %d chars from %s is a palindrom: %s',
+    (maxDeletes, word, expected) => {
+      expect(deletingPalindromes(word, maxDeletes)).toEqual(expected);
+    }
+  );
+
+  test.concurrent.each([
+    [0, 'waterrfetowx', 'aterrfetowx'],
+    [4, 'waterfetowx', 'watefetowx'],
+  ])('Remove char at index %d from %s returns %s', (index, input, output) => {
+    expect(removeCharAt(input, index)).toEqual(output);
+  });
+
+  test.concurrent.each([
+    ['', false],
+    ['a', false],
+    ['waw', true],
     ['watterrfetawx', false],
     ['waterretaw', true],
     ['pop', true],
