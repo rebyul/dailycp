@@ -29,5 +29,5 @@ export function findOddInteger(numbers: number[]): number {
   }
 
   // Return next iterator value as there will only be 1 answer
-  return counterMap.keys().next().value;
+  return Number(counterMap.keys().next().value);
 }
