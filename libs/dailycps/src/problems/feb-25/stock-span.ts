@@ -42,3 +42,39 @@ export function stockSpan(input: number[]) {
   }
   return stockSpan;
 }
+
+/**
+ * stockSpanOptimized.
+ *
+ * @param {number[]} input
+ */
+export function stockSpanOptimized(input: number[]) {
+  /** @type {number[]}*/
+  const stockSpan: number[] = [];
+  /**
+   * @description Stack of previous stock price highs
+   * @type { number[]}
+   */
+  const stack: number[] = [];
+
+  for (let i = 0; i < input.length; i++) {
+    // Keep popping while current price is greater than or equal to current price
+    // We can discard the popped items as the previous highs are recorded by index
+    while (stack.length > 0 && input[stack[stack.length - 1]] <= input[i]) {
+      stack.pop();
+    }
+
+    // No previous stock prices are higher than current. therefore everything until index and including index is the span
+    if (stack.length === 0) {
+      stockSpan[i] = i + 1;
+    }
+    // streak is the current index minus the last index in the index stack where the price got stuck at
+    else {
+      stockSpan[i] = i - stack[stack.length - 1];
+    }
+
+    // Insert the current price to the stack
+    stack.push(i);
+  }
+  return stockSpan;
+}
