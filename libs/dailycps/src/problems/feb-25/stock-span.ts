@@ -28,16 +28,16 @@ export function stockSpan(input: number[]) {
 
     // Traverse the span to the right to compare prices
     for (let j = i - 1; j >= 0; j--) {
-      if (j < 0) {
-        break;
-      }
       // If the previous day's price was higher than today's, end the span
-      if (input[i] < /** next */ input[j]) {
+      if (input[i] >= /** next */ input[j]) {
+        streak++;
+        stockSpan[i] = streak;
+      }
+      // Else continue the stream;
+      else {
         stockSpan[i] = streak;
         break;
       }
-      // Else continue the stream;
-      streak++;
     }
   }
   return stockSpan;
