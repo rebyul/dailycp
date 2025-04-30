@@ -37,10 +37,10 @@ export function isPalindrome(word: string): boolean {
 type Sliceable<T> =
   | Array<T>
   | {
-    length: number;
-    slice: (start?: number, end?: number) => Sliceable<T> | T[];
-    [index: number]: Sliceable<T>;
-  };
+      length: number;
+      slice: (start?: number, end?: number) => Sliceable<T> | T[];
+      [index: number]: Sliceable<T>;
+    };
 
 type ReturnType<T> = T extends (...args: never[]) => infer R ? R : never;
 
