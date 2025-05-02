@@ -5,6 +5,7 @@ Given a string which we can delete at most k, return whether you can make a pali
 
 For example, given 'waterrfetawx' and a k of 2, you could delete f and x to get 'waterretaw'.
 */
+
 export function deletingPalindromes(word: string, maxDeletes: number): string {
   if (isPalindrome(word)) {
     return word;
@@ -37,10 +38,10 @@ export function isPalindrome(word: string): boolean {
 type Sliceable<T> =
   | Array<T>
   | {
-      length: number;
-      slice: (start?: number, end?: number) => Sliceable<T> | T[];
-      [index: number]: Sliceable<T>;
-    };
+    length: number;
+    slice: (start?: number, end?: number) => Sliceable<T> | T[];
+    [index: number]: Sliceable<T>;
+  };
 
 type ReturnType<T> = T extends (...args: never[]) => infer R ? R : never;
 
