@@ -13,7 +13,7 @@ For example, given the following tree and K of 20
 Return the nodes 5 and 15.
 */
 
-import { type BinaryNode } from '../../../lib';
+import type { BinaryNode } from '../../../lib';
 
 export function treeSums(
   rootNode: BinaryNode,
