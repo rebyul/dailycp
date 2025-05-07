@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@dailycp/dailycps": ["libs/dailycps/src/index.ts"]
+      "@dailycp/lib": ["libs/dailycps/src/lib/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
