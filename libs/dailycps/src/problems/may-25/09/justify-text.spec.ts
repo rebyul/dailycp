@@ -53,7 +53,7 @@ describe('justify text', () => {
       6,
       ['Listen', 'to    ', 'many, ', 'speak ', 'to   a', 'few.  '],
     ],
-  ])('Example input', (input, k, expected) => {
+  ])('Do justice', (input, k, expected) => {
     const res = justifyText(input, k);
     expect(res).toEqual(expected);
 
