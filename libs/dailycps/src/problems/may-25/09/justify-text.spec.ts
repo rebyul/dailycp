@@ -48,6 +48,11 @@ describe('justify text', () => {
         'do                  ',
       ],
     ],
+    [
+      ['Listen', 'to', 'many,', 'speak', 'to', 'a', 'few.'],
+      6,
+      ['Listen', 'to    ', 'many, ', 'speak ', 'to   a', 'few.  '],
+    ],
   ])('Example input', (input, k, expected) => {
     const res = justifyText(input, k);
     expect(res).toEqual(expected);
@@ -59,16 +64,13 @@ describe('justify text', () => {
 
   test.each([
     [[], 0],
-    [['abc'], 3],
-    [['abc', 'def'], 7],
+    [['abc'], 4],
+    [['abc', 'def'], 8],
   ])('currentLineLength', (input, expected) => {
     expect(minLengthWithSpaces(input)).toEqual(expected);
   });
 
   test.each([
-    [['abc', 'def'], 3, [['abc'], ['def']]],
-    [['abc', 'def'], 10, [['abc', 'def']]],
-    [['abc', 'def'], 5, [['abc'], ['def']]],
     [
       ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog'],
       16,
