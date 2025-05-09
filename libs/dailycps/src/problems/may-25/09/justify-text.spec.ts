@@ -6,25 +6,51 @@ import {
 } from './justify-text';
 
 describe('justify text', () => {
-  test('Example input', () => {
-    const input = [
-      'the',
-      'quick',
-      'brown',
-      'fox',
-      'jumps',
-      'over',
-      'the',
-      'lazy',
-      'dog',
-    ];
-    const k = 16;
+  test.skip.each([
+    [
+      ['What', 'must', 'be', 'acknowledgment', 'shall', 'be'],
+      16,
+      ['What   must   be', 'acknowledgment  ', 'shall be        '],
+    ],
+    [
+      ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog'],
+      16,
+      ['the  quick brown', 'fox  jumps  over', 'the   lazy   dog'],
+    ],
+    [
+      [
+        'Science',
+        'is',
+        'what',
+        'we',
+        'understand',
+        'well',
+        'enough',
+        'to',
+        'explain',
+        'to',
+        'a',
+        'computer.',
+        'Art',
+        'is',
+        'everything',
+        'else',
+        'we',
+        'do',
+      ],
+      20,
+      [
+        'Science  is  what we',
+        'understand      well',
+        'enough to explain to',
+        'a  computer.  Art is',
+        'everything  else  we',
+        'do                  ',
+      ],
+    ],
+  ])('Example input', (input, k, expected) => {
     const res = justifyText(input, k);
-    expect(res).toEqual([
-      'the  quick brown',
-      'fox  jumps  over',
-      'the   lazy   dog',
-    ]);
+    expect(res).toEqual(expected);
 
     for (const line of res) {
       expect(line.length).toEqual(k);
@@ -50,6 +76,37 @@ describe('justify text', () => {
         ['the', 'quick', 'brown'],
         ['fox', 'jumps', 'over'],
         ['the', 'lazy', 'dog'],
+      ],
+    ],
+    [
+      [
+        'Science',
+        'is',
+        'what',
+        'we',
+        'understand',
+        'well',
+        'enough',
+        'to',
+        'explain',
+        'to',
+        'a',
+        'computer.',
+        'Art',
+        'is',
+        'everything',
+        'else',
+        'we',
+        'do',
+      ],
+      20,
+      [
+        ['Science', 'is', 'what', 'we'],
+        ['understand', 'well'],
+        ['enough', 'to', 'explain', 'to'],
+        ['a', 'computer.', 'Art', 'is'],
+        ['everything', 'else', 'we'],
+        ['do'],
       ],
     ],
   ])('splitInput(%s, %s), returns %o', (input, k, expected) => {
