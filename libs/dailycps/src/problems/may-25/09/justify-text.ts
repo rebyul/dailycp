@@ -66,5 +66,5 @@ export function justifyLine(input: string[], k: number): string {
 }
 
 export function minLengthWithSpaces(input: string[]) {
-  return input.join(' ').length;
+  return input.join(' ').length + 1;
 }
