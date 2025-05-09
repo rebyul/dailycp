@@ -1,5 +1,5 @@
 import {
-  currentLineLength,
+  minLengthWithSpaces,
   justifyLine,
   justifyText,
   splitInput,
@@ -36,7 +36,7 @@ describe('justify text', () => {
     [['abc'], 3],
     [['abc', 'def'], 7],
   ])('currentLineLength', (input, expected) => {
-    expect(currentLineLength(input)).toEqual(expected);
+    expect(minLengthWithSpaces(input)).toEqual(expected);
   });
 
   test.each([
