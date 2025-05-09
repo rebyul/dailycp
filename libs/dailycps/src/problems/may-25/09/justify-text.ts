@@ -34,7 +34,7 @@ export function splitInput(input: string[], k: number): string[][] {
   let accLine: string[] = [];
 
   for (const word of input) {
-    if (currentLineLength(accLine) + word.length <= k) {
+    if (minLengthWithSpaces(accLine) + word.length <= k) {
       accLine.push(word);
     } else {
       result.push(accLine);
@@ -51,37 +51,20 @@ export function justifyLine(input: string[], k: number): string {
     return input[0] + ' '.repeat(k - input[0].length);
   }
 
-  // Immutability
-  const result = input;
-  // Save the last word. No spaces added here
-  const lastWord = result.pop()!;
-  // Add spaces to each word except last
-  const resultWithSpaces = result.map((w) => w + ' ');
-  const totalSpacesToAdd =
-    k - resultWithSpaces.join('').length - lastWord.length;
-  const spacesToEachWord = Math.floor(totalSpacesToAdd / result.length);
-  const remainderSpaces = totalSpacesToAdd - result.length * spacesToEachWord;
-  const spacesArray = Array(result.length).fill(' '.repeat(spacesToEachWord));
-  spacesArray.push(' '.repeat(remainderSpaces));
-  let index = 0;
-  while (spacesArray.length > 0) {
-    resultWithSpaces[index % resultWithSpaces.length] =
-      resultWithSpaces[index % resultWithSpaces.length] + spacesArray.shift();
-    index++;
-  }
-  resultWithSpaces.push(lastWord);
-  return resultWithSpaces.join('');
+  let spacesToAdd = k - input.join('').length,
+    i = 0;
 
-  // const defaultWhitespaces = input.length - 1;
-  // const requiredSpaces = k - input.join('').length - defaultWhitespaces;
-  // const remainder = requiredSpaces % (input.length - 1);
-  // const spacesPerWord = (requiredSpaces - remainder) / (input.length - 1);
-  // const spacesArray = Array(input.length - 1).fill(' '.repeat(spacesPerWord));
-  // spacesArray.push(' '.repeat(remainder));
-  //
-  return input.map((w, i) => w + spacesArray[i]).join(' ');
+  while (spacesToAdd > 0) {
+    if (i % input.length !== input.length - 1) {
+      input[i % input.length] = input[i % input.length] + ' ';
+      spacesToAdd--;
+    }
+    i++;
+  }
+
+  return input.join('');
 }
 
-export function currentLineLength(input: string[]) {
+export function minLengthWithSpaces(input: string[]) {
   return input.join(' ').length;
 }
