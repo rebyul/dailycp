@@ -13,12 +13,12 @@ export function longestConsecutive(nums: number[]): number {
   let max = 0;
 
   for (const num of nums) {
-    if (set.has(num - 1)) continue;
+    if (set.has(num + 1)) continue;
 
     let counter = 1,
       current = num;
 
-    while (set.has(++current)) counter++;
+    while (set.has(--current)) counter++;
 
     max = Math.max(counter, max);
   }
