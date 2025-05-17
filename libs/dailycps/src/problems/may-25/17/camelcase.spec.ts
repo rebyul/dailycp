@@ -1,4 +1,4 @@
-import { toCamelCase } from './camelcase';
+import { toCamelCase, toEnvCase } from './camelcase';
 
 describe('Camel case', () => {
   test.each([
@@ -9,5 +9,13 @@ describe('Camel case', () => {
     ['_____APP_____NAME___', 'appName'],
   ])('Given toCamelCase(%s) returns %s', (input, output) => {
     expect(toCamelCase(input)).toEqual(output);
+  });
+  test.each([
+    ['dbName', 'DB_NAME'],
+    ['appName', 'APP_NAME'],
+    ['firstUds', 'FIRST_UDS'],
+    ['appName', 'APP_NAME_'],
+  ])('Given toCamelCase(%s) returns %s', (input, output) => {
+    expect(toEnvCase(input)).toEqual(output);
   });
 });

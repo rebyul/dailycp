@@ -13,3 +13,16 @@ export function toCamelCase(str: string): string {
 
   return res;
 }
+
+export function toEnvCase(str: string): string {
+  let res = '';
+
+  for (const char of str) {
+    if (char.match(/[A-Z]/)) {
+      res += '_';
+    }
+    res += char.toUpperCase();
+  }
+
+  return res;
+}
