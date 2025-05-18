@@ -34,24 +34,15 @@ export function harderMinCoins(coins: number[], total: number): number {
     return 0;
   }
 
-  let coinCount = 0;
+  for (const coin of coins) {
+    const nextIteration = harderMinCoins(coins, total - coin);
 
-  const coinsDesc = coins.sort((a, b) => b - a);
-
-  let remainder = total;
-
-  for (const denomination of coinsDesc) {
-    if (denomination > remainder) {
+    if (nextIteration === -1) {
       continue;
     }
 
-    coinCount += Math.floor(remainder / denomination);
-    remainder = remainder % denomination;
+    return 1 + nextIteration
   }
 
-  if (remainder !== 0) {
-    return -1;
-  }
-
-  return coinCount;
+  return -1;
 }
