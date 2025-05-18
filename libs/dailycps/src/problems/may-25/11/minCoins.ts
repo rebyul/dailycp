@@ -26,3 +26,31 @@ export function minCoins(total: number): number {
 
   return coins;
 }
+
+export function harderMinCoins(coins: number[], total: number): number {
+  if (!coins || total < 0) return -1;
+
+  if (total === 0) {
+    return 0;
+  }
+
+  let coinCount = 0;
+
+  const coinsDesc = coins.sort((a, b) => b - a);
+
+  let remainder = total;
+  for (const denomination of coinsDesc) {
+    if (denomination > remainder) {
+      continue;
+    }
+
+    coinCount += Math.floor(remainder / denomination);
+    remainder = remainder % denomination;
+  }
+
+  if (remainder !== 0) {
+    return -1;
+  }
+
+  return coinCount;
+}
