@@ -39,6 +39,7 @@ export function harderMinCoins(coins: number[], total: number): number {
   const coinsDesc = coins.sort((a, b) => b - a);
 
   let remainder = total;
+
   for (const denomination of coinsDesc) {
     if (denomination > remainder) {
       continue;
