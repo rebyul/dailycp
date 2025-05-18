@@ -14,7 +14,7 @@ describe('Camel case', () => {
     ['dbName', 'DB_NAME'],
     ['appName', 'APP_NAME'],
     ['firstUds', 'FIRST_UDS'],
-    ['appName', 'APP_NAME_'],
+    ['appName', 'APP_NAME'],
   ])('Given toCamelCase(%s) returns %s', (input, output) => {
     expect(toEnvCase(input)).toEqual(output);
   });
