@@ -26,14 +26,15 @@ describe('Harder min coins', () => {
     [[10], 40, 4],
     [[25, 10, 5], 30, 2],
     [[9, 6, 5, 1], 19, 3],
-    // [[186, 419, 83, 408], 6249, 20],
+    [[186, 419, 83, 408], 6249, 20],
   ])(
     'Possible combination harderMinCoins(%s, %d) returns %d',
     (input, total, expected) => {
       expect(harderMinCoins(input, total)).toEqual(expected);
     }
   );
-  test.skip('Debug', () => {
-    expect(harderMinCoins([186, 419, 83, 408], 6249)).toEqual(20);
+
+  test('meow', () => {
+    expect(harderMinCoins([3, 6, 7, 8, 4, 1], 4)).toEqual(1);
   });
 });

@@ -28,21 +28,64 @@ export function minCoins(total: number): number {
 }
 
 export function harderMinCoins(coins: number[], total: number): number {
-  if (!coins || total < 0) return -1;
+  const cache = new Map();
+  harderMinCoinsHelper(coins, total, 0, 0, cache);
+  const result = cache.get(total);
+  return Number.isInteger(result) ? result : -1;
+}
 
-  if (total === 0) {
-    return 0;
+function harderMinCoinsHelper(
+  coins: number[],
+  target: number,
+  currentSum: number,
+  depth: number,
+  cache: Map<number, number>
+) {
+  if (!coins || currentSum > target) {
+    updateCache(cache, currentSum, -1);
+    return;
   }
+
+  // Hit jackpot
+  if (currentSum === target) {
+    updateCache(cache, currentSum, depth);
+    return;
+  }
+
+  // See if we've been to where we're going
+  const existingCache = cache.get(currentSum);
+
+  if (existingCache === -1) {
+    return;
+  }
+
+  // If we've been there with a shorter or equal route. Stop here. We've done this
+  if (existingCache && existingCache <= depth) {
+    return;
+  }
+
+  // Our depth is lower than the existing cache.
+  // Keep going as we're discovering new heights
+  updateCache(cache, currentSum, depth);
 
   for (const coin of coins) {
-    const nextIteration = harderMinCoins(coins, total - coin);
+    const nextSum = currentSum + coin;
 
-    if (nextIteration === -1) {
-      continue;
-    }
-
-    return 1 + nextIteration
+    harderMinCoinsHelper(coins, target, nextSum, depth + 1, cache);
   }
 
-  return -1;
+  return;
+}
+
+function updateCache(
+  cache: Map<number, number>,
+  target: number,
+  depth: number
+): number {
+  const currentTargetMin = cache.get(target)!;
+  if (Number.isInteger(currentTargetMin) && currentTargetMin <= depth) {
+    return currentTargetMin;
+  }
+  cache.set(target, depth);
+  return depth;
 }
