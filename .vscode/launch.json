@@ -8,10 +8,15 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Jest Test",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
-      "args": ["--runInBand", "--config=${workspaceFolder}/jest.config.ts"],
+      "args": [
+        "--runInBand",
+        "--config=${workspaceFolder}/jest.config.ts"
+      ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
@@ -19,7 +24,9 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Jest - current file",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
       "args": [
@@ -28,7 +35,8 @@
         "--testNamePattern",
         "${jest.testNamePattern}",
         "--runTestsByPath",
-        "${file}"
+        "${file}","--testTimeout",
+        "10000"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -36,6 +44,25 @@
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests.v2.dailycp",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
+      "args": [
+        "--runInBand",
+        "--watchAll=false",
+        "--testNamePattern",
+        "${jest.testNamePattern}",
+        "--runTestsByPath",
+        "${jest.testFile}",
+
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
     }
   ]
 }
