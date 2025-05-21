@@ -29,6 +29,9 @@ export function minCoins(total: number): number {
 
 export function harderMinCoins(coins: number[], total: number): number {
 	const cache = new Map();
+	if (coins.length === 0) {
+		return -1;
+	}
 	harderMinCoinsHelper(coins, total, 0, 0, cache);
 	const result = cache.get(total);
 	return Number.isInteger(result) ? result : -1;
@@ -40,16 +43,10 @@ function harderMinCoinsHelper(
 	currentSum: number,
 	depth: number,
 	cache: Map<number, number>,
-) {
-	if (!coins || currentSum > target) {
+): number {
+	if (currentSum > target) {
 		updateCache(cache, currentSum, -1);
-		return;
-	}
-
-	// Hit jackpot
-	if (currentSum === target) {
-		updateCache(cache, currentSum, depth);
-		return;
+		return -1;
 	}
 
 	// See if we've been to where we're going
@@ -57,20 +54,30 @@ function harderMinCoinsHelper(
 
 	// If we've been there with a shorter or equal route. Stop here. We've done this
 	if (existingCache && (existingCache === -1 || existingCache <= depth)) {
-		return;
+		return -1;
 	}
 
 	// Our depth is lower than the existing cache.
 	// Keep going as we're discovering new heights
-	updateCache(cache, currentSum, depth);
+	cache.set(currentSum, depth);
 
-	for (const coin of coins) {
-		const nextSum = currentSum + coin;
-
-		harderMinCoinsHelper(coins, target, nextSum, depth + 1, cache);
+	// Hit jackpot
+	if (currentSum === target) {
+		return 0;
 	}
 
-	return;
+	for (const coin of coins) {
+		const res = harderMinCoinsHelper(
+			coins,
+			target,
+			currentSum + coin,
+			depth + 1,
+			cache,
+		);
+	}
+
+	// updateCache(cache, currentSum, depth);
+	return depth;
 }
 
 function updateCache(
@@ -86,4 +93,49 @@ function updateCache(
 	return depth;
 }
 
-export function takeNotakeCoins(coins: number[], total: number): number {}
+export function takeNotakeCoins(coins: number[], total: number): number {
+	let cache = new Map();
+	if (coins.length === 0) {
+		return -1;
+	}
+	if (total === 0) {
+		return 0;
+	}
+
+	const res = takeNotakeHelper(coins, total, 0, cache);
+	return res !== Number.MAX_SAFE_INTEGER ? res : -1;
+}
+
+function takeNotakeHelper(
+	coins: number[],
+	currentSum: number,
+	i: number,
+	cache: Map<number, number>,
+): number {
+	if (currentSum === 0) {
+		return 0;
+	}
+
+	if (currentSum < 0 || i === coins.length) {
+		return Number.MAX_SAFE_INTEGER;
+	}
+
+	// for (let i = 0; i < coins.length; i++) {
+	// Take coin path
+	// if (coins[i]) {
+	let take = takeNotakeHelper(coins, currentSum - coins[i], i, cache);
+	if (take !== Number.MAX_SAFE_INTEGER) {
+		take++;
+	}
+	// }
+	// Update cache for take path
+	// updateCache(cache, currentSum + coins[i], take)
+
+	// No take coin path
+	// We dont take the coin at i, but rather i+1?
+	const noTake = takeNotakeHelper(coins, currentSum, i + 1, cache);
+
+	return Math.min(take, noTake);
+	// }
+	// return 0;
+}
