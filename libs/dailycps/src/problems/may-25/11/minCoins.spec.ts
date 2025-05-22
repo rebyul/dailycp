@@ -27,7 +27,6 @@ describe("Harder min coins", () => {
 		[[25, 10, 5], 30, 2],
 		[[9, 6, 5, 1], 19, 3],
 		[[186, 419, 83, 408], 6249, 20],
-		//     838, 166, 3
 		[[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24], 9999, -1],
 	])(
 		"Possible combination harderMinCoins(%s, %d) returns %d",
@@ -41,7 +40,7 @@ describe("Harder min coins", () => {
 	});
 });
 
-describe.only("Geekcode solution attempt", () => {
+describe("Geekcode solution attempt", () => {
 	test("No coins returns -1", () => {
 		expect(takeNotakeCoins([], 5)).toEqual(-1);
 	});
@@ -58,7 +57,8 @@ describe.only("Geekcode solution attempt", () => {
 		[[10], 40, 4],
 		[[25, 10, 5], 30, 2],
 		[[9, 6, 5, 1], 19, 3],
-		// [[186, 419, 83, 408], 6249, 20],
+		[[186, 419, 83, 408], 6249, 20],
+		[[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24], 9999, -1],
 	])(
 		"Possible combination takeNotakeCoins(%s, %d) returns %d",
 		(input, total, expected) => {

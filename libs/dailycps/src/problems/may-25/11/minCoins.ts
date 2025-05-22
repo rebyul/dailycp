@@ -120,6 +120,10 @@ function takeNotakeHelper(
 		return Number.MAX_SAFE_INTEGER;
 	}
 
+	if (cache.has(currentSum)) {
+		return cache.get(currentSum)!;
+	}
+
 	// for (let i = 0; i < coins.length; i++) {
 	// Take coin path
 	// if (coins[i]) {
@@ -135,7 +139,9 @@ function takeNotakeHelper(
 	// We dont take the coin at i, but rather i+1?
 	const noTake = takeNotakeHelper(coins, currentSum, i + 1, cache);
 
-	return Math.min(take, noTake);
+	const minResult = Math.min(take, noTake);
+	cache.set(currentSum, minResult);
+	return minResult;
 	// }
 	// return 0;
 }
