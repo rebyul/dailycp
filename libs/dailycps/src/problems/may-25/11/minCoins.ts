@@ -33,9 +33,11 @@ export function harderMinCoins(coins: number[], total: number): number {
 		return -1;
 	}
 	const res = harderMinCoinsHelper(coins, total, 0, cache);
-	return res === Number.MAX_SAFE_INTEGER ? -1 : res;
-	const result = cache.get(0);
-	return Number.isInteger(result) ? result : -1;
+	// return res === Number.MAX_SAFE_INTEGER ? -1 : res;
+	const result = cache.get(total);
+	return result !== undefined && result !== Number.MAX_SAFE_INTEGER
+		? result
+		: -1;
 }
 
 function harderMinCoinsHelper(
