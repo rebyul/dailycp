@@ -28,13 +28,24 @@ export function minCoins(total: number): number {
 }
 
 export function harderMinCoins(coins: number[], total: number): number {
-	const cache = new Map();
+	const cache = new Map<number | string, number>([
+		["depth", 0],
+		["cache", 0],
+	]);
 	if (coins.length === 0) {
 		return -1;
 	}
+
+	if (total === 0) {
+		return 0;
+	}
+
 	harderMinCoinsHelper(coins, total, 0, 0, cache);
 	const result = cache.get(total);
-	return Number.isInteger(result) ? result : -1;
+	console.log(
+		`harder ${coins}: ${cache.get("cache")}, cache hits: ${cache.get("depth")}`,
+	);
+	return Number.isInteger(result) ? result! : -1;
 }
 
 function harderMinCoinsHelper(
@@ -42,10 +53,12 @@ function harderMinCoinsHelper(
 	target: number,
 	currentSum: number,
 	depth: number,
-	cache: Map<number, number>,
+	cache: Map<number | string, number>,
 ): number {
+	cache.set("depth", cache.get("depth")! + 1);
+	// Gone out of bounds
 	if (currentSum > target) {
-		updateCache(cache, currentSum, -1);
+		// cache.set(currentSum, -1);
 		return -1;
 	}
 
@@ -53,19 +66,23 @@ function harderMinCoinsHelper(
 	const existingCache = cache.get(currentSum);
 
 	// If we've been there with a shorter or equal route. Stop here. We've done this
-	if (existingCache && (existingCache === -1 || existingCache <= depth)) {
-		return -1;
+	if (existingCache && existingCache <= depth) {
+		cache.set("cache", cache.get("cache")! + 1);
+		return existingCache;
 	}
 
 	// Our depth is lower than the existing cache.
 	// Keep going as we're discovering new heights
-	cache.set(currentSum, depth);
+	// updateCache(cache, currentSum, depth);
 
 	// Hit jackpot
 	if (currentSum === target) {
-		return 0;
+		const test = Math.min(existingCache || Number.MAX_SAFE_INTEGER, depth);
+		cache.set(currentSum, test);
+		return test;
 	}
 
+	let min = depth;
 	for (const coin of coins) {
 		const res = harderMinCoinsHelper(
 			coins,
@@ -74,14 +91,21 @@ function harderMinCoinsHelper(
 			depth + 1,
 			cache,
 		);
+		if (res !== -1) {
+			if (res < depth) {
+				updateCache(cache, currentSum, res);
+				return res;
+			}
+
+			updateCache(cache, currentSum, depth);
+		}
 	}
 
-	// updateCache(cache, currentSum, depth);
-	return depth;
+	return min;
 }
 
 function updateCache(
-	cache: Map<number, number>,
+	cache: Map<number | string, number>,
 	target: number,
 	depth: number,
 ): number {
@@ -94,7 +118,10 @@ function updateCache(
 }
 
 export function takeNotakeCoins(coins: number[], total: number): number {
-	let cache = new Map();
+	const cache = new Map([
+		["cache", 0],
+		["depth", 0],
+	]);
 	if (coins.length === 0) {
 		return -1;
 	}
@@ -103,6 +130,9 @@ export function takeNotakeCoins(coins: number[], total: number): number {
 	}
 
 	const res = takeNotakeHelper(coins, total, 0, cache);
+	console.log(
+		`take no take ${coins}: ${cache.get("cache")}, cache hits: ${cache.get("depth")}`,
+	);
 	return res !== Number.MAX_SAFE_INTEGER ? res : -1;
 }
 
@@ -110,8 +140,9 @@ function takeNotakeHelper(
 	coins: number[],
 	currentSum: number,
 	i: number,
-	cache: Map<number, number>,
+	cache: Map<number | string, number>,
 ): number {
+	cache.set("depth", cache.get("depth")! + 1);
 	if (currentSum === 0) {
 		return 0;
 	}
@@ -120,20 +151,20 @@ function takeNotakeHelper(
 		return Number.MAX_SAFE_INTEGER;
 	}
 
+	// Cache hit
 	if (cache.has(currentSum)) {
+		cache.set("cache", cache.get("cache")! + 1);
 		return cache.get(currentSum)!;
 	}
 
-	// for (let i = 0; i < coins.length; i++) {
 	// Take coin path
-	// if (coins[i]) {
-	let take = takeNotakeHelper(coins, currentSum - coins[i], i, cache);
-	if (take !== Number.MAX_SAFE_INTEGER) {
-		take++;
+	let take = Number.MAX_SAFE_INTEGER;
+	if (coins[i]) {
+		take = takeNotakeHelper(coins, currentSum - coins[i], i, cache);
+		if (take !== Number.MAX_SAFE_INTEGER) {
+			take++;
+		}
 	}
-	// }
-	// Update cache for take path
-	// updateCache(cache, currentSum + coins[i], take)
 
 	// No take coin path
 	// We dont take the coin at i, but rather i+1?
@@ -141,7 +172,5 @@ function takeNotakeHelper(
 
 	const minResult = Math.min(take, noTake);
 	cache.set(currentSum, minResult);
-	return minResult;
-	// }
-	// return 0;
+	return Math.min(take, noTake);
 }
