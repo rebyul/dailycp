@@ -1,22 +1,14 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
       "type": "pwa-node",
       "request": "launch",
       "name": "Jest Test",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
-      "args": [
-        "--runInBand",
-        "--config=${workspaceFolder}/jest.config.ts"
-      ],
+      "args": ["--runInBand", "--config=${workspaceFolder}/jest.config.ts"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
@@ -24,9 +16,7 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Jest - current file",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
       "args": [
@@ -35,7 +25,8 @@
         "--testNamePattern",
         "${jest.testNamePattern}",
         "--runTestsByPath",
-        "${file}","--testTimeout",
+        "${file}",
+        "--testTimeout",
         "10000"
       ],
       "console": "integratedTerminal",
@@ -56,13 +47,12 @@
         "--testNamePattern",
         "${jest.testNamePattern}",
         "--runTestsByPath",
-        "${jest.testFile}",
-
+        "${jest.testFile}"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
+      "disableOptimisticBPs": true
     }
   ]
 }
