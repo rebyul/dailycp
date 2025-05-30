@@ -1,5 +1,5 @@
 import { BinaryNode } from '@dailycp/lib';
-import { cartesianTree } from './cartesianTree';
+import { cartesianTree } from './geminiCartensianTree';
 
 describe('Cartesian tree', () => {
   test('Empty case', () => {

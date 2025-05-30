@@ -46,6 +46,9 @@ function insertNode(root: BinaryNode, node: BinaryNode) {
   const searchPath = [root];
 
   while (searchPath.length > 0) {
+    // This shift is a performance killer.
+    // Every time you shift, the array needs to be shuffled, which multiplies
+    // O(n) time complexity to the execution
     const currentNode = searchPath.shift();
     assert(currentNode !== undefined);
 
