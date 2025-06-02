@@ -81,30 +81,7 @@ function newNumberSubscriber(numStore, n) {
 }
 function getSorted(numStore, maxChunkSize) {
     return __awaiter(this, void 0, void 0, function () {
-        function managerWork(m
-        // resolve: (args?: any) => void,
-        // reject: (error: Error) => void
-        ) {
-            var _a, _b;
-            switch (m.action) {
-                case 'sort-chunk':
-                    console.log('resolve sort:', m.index);
-                    (_a = sortResolves_1[m.index]) === null || _a === void 0 ? void 0 : _a.call(undefined, undefined);
-                    Promise.resolve(Promise.resolve(workerPromises[m.index]));
-                    break;
-                case 'pop-smallest':
-                    console.log('popped smallest: ', m.data);
-                    mergeCandiates_1[m.index] = m.data;
-                    // Resolve at resolve list
-                    console.log('resolved ', m.index);
-                    (_b = resolveList_1[m.index]) === null || _b === void 0 ? void 0 : _b.call(undefined);
-                    resolveList_1[m.index] = undefined;
-                    break;
-                default:
-                    throw new Error('unknown action');
-            }
-        }
-        var workers, workerPromises, sortedArray, iter, sortResolves_1, _loop_1, state_1, mergeCandiates_1, resolveList_1, w, tickPromises, _loop_2, i, _a, smallest, index;
+        var workers, workerPromises, sortedArray, iter, _loop_1, state_1, mergeCandiates_1, resolveList_1, w, tickPromises, _loop_2, i, _a, smallest, index;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -120,42 +97,35 @@ function getSorted(numStore, maxChunkSize) {
                 case 1:
                     _b.trys.push([1, , 6, 8]);
                     iter = readNumbers(numStore);
-                    sortResolves_1 = [];
                     _loop_1 = function () {
-                        var chunkIterator = iter.take(maxChunkSize);
+                        var chunkIterator = manualTake(iter, maxChunkSize);
                         // We've filled the chunk. Send it off the work
                         var chunk = chunkIterator.toArray();
                         if (chunk.length === 0) {
                             return "break";
                         }
                         var workerPath = path.resolve(__dirname, './sortWorker.js');
-                        console.log("[Main] Worker script path: ".concat(workerPath));
                         var worker = new node_worker_threads_1.Worker(workerPath);
                         // Save the workers to reference later
-                        var workerIndex = workers.push(worker) - 1;
-                        worker.on('message', function (m) {
-                            managerWork(m);
-                        });
-                        // worker.on('error', () => {
-                        //   throw new Error('worker error');
-                        // });
-                        // worker.on('exit', (code) => {
-                        //   console.log(code);
-                        //   if (code !== 0) {
-                        //     throw new Error(`Worker stopped with exit code ${code}`);
-                        //   }
-                        // });
-                        console.log("Created worker ".concat(workerIndex));
+                        workers.push(worker);
                         var sortedPromise = new Promise(function (resolve, reject) {
-                            sortResolves_1[workerIndex] = resolve;
+                            worker.on('message', function (m) {
+                                if (m.action === 'sort-chunk')
+                                    resolve(undefined);
+                            });
+                            worker.on('error', reject);
+                            worker.on('exit', function (code) {
+                                console.log('exit ', code);
+                                if (code !== 0) {
+                                    reject(new Error("Worker stopped with exit code ".concat(code)));
+                                }
+                            });
                         });
                         workerPromises.push(sortedPromise);
-                        console.log('post sort', workerIndex);
-                        // Send the worker sort work
+                        // Send the worker some work
                         worker.postMessage({
                             action: 'sort-chunk',
                             data: chunk,
-                            index: workerIndex,
                         });
                     };
                     while (true) {
@@ -164,20 +134,13 @@ function getSorted(numStore, maxChunkSize) {
                             break;
                     }
                     // Each worker has sorted all chunks
-                    console.log('meow', workerPromises);
                     return [4 /*yield*/, Promise.all(workerPromises)];
                 case 2:
+                    // Each worker has sorted all chunks
                     _b.sent();
-                    console.log('woof', workerPromises);
-                    mergeCandiates_1 = Array(workers.length);
+                    console.log('[Main] done sorting');
+                    mergeCandiates_1 = Array(workers.length).fill(null);
                     resolveList_1 = Array(mergeCandiates_1.length);
-                    // Merge from all workers
-                    // const mergeCandidates = new MinHeap()
-                    // const mergeCandiates = Array(workers.length);
-                    //
-                    // const resolveList: ((() => void) | undefined)[] = Array(
-                    //   mergeCandiates.length
-                    // );
                     // Initialize each worker to drop popped values into correct position
                     for (w = 0; w < workers.length; w++) {
                         workers[w].on('message', function (m) {
@@ -185,7 +148,12 @@ function getSorted(numStore, maxChunkSize) {
                             if (m.action === 'pop-smallest') {
                                 mergeCandiates_1[m.index] = m.data;
                                 // Resolve at resolve list
-                                console.log('resolved ', m.index);
+                                // console.log(
+                                //   '[Main] received popped: ',
+                                //   m.data,
+                                //   ' from worker: ',
+                                //   m.index
+                                // );
                                 (_a = resolveList_1[m.index]) === null || _a === void 0 ? void 0 : _a.call(undefined);
                                 resolveList_1[m.index] = undefined;
                             }
@@ -196,7 +164,8 @@ function getSorted(numStore, maxChunkSize) {
                     if (!(sortedArray.length !== numStore.length)) return [3 /*break*/, 5];
                     tickPromises = Array(workers.length);
                     _loop_2 = function (i) {
-                        if (mergeCandiates_1[i] === undefined) {
+                        if (mergeCandiates_1[i] === null) {
+                            console.log("[Main] queue popp on queue ".concat(i));
                             tickPromises[i] = new Promise(function (resolve, reject) {
                                 resolveList_1[i] = resolve;
                             });
@@ -227,8 +196,8 @@ function getSorted(numStore, maxChunkSize) {
                         }
                         return [aValue, aIndex];
                     }), smallest = _a[0], index = _a[1];
-                    console.log('[', smallest, ',', index, ']');
-                    mergeCandiates_1[index] = undefined;
+                    console.log("[Main] pushing ".concat(smallest, " to output"));
+                    mergeCandiates_1[index] = null;
                     sortedArray.push(smallest);
                     return [3 /*break*/, 3];
                 case 5: return [3 /*break*/, 8];
@@ -243,6 +212,17 @@ function getSorted(numStore, maxChunkSize) {
             }
         });
     });
+}
+function managerWork(response, resolve, reject) {
+    switch (response.action) {
+        case 'sort-chunk':
+            resolve();
+            break;
+        case 'pop-smallest':
+            break;
+        default:
+            reject(Error('unknown action'));
+    }
 }
 function readNumbers(numStore) {
     var _i, numStore_1, num;
@@ -262,6 +242,28 @@ function readNumbers(numStore) {
                 _i++;
                 return [3 /*break*/, 1];
             case 4: return [2 /*return*/];
+        }
+    });
+}
+function manualTake(iterator, count) {
+    var yieldedCount, _a, value, done;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                yieldedCount = 0;
+                _b.label = 1;
+            case 1:
+                if (!(yieldedCount < count)) return [3 /*break*/, 3];
+                _a = iterator.next(), value = _a.value, done = _a.done;
+                if (done) {
+                    return [2 /*return*/]; // The original iterator is exhausted, stop yielding.
+                }
+                return [4 /*yield*/, value];
+            case 2:
+                _b.sent(); // Yield the element
+                yieldedCount++;
+                return [3 /*break*/, 1];
+            case 3: return [2 /*return*/];
         }
     });
 }

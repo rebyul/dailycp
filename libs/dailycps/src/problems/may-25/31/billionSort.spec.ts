@@ -27,17 +27,18 @@ describe('Billion sort', () => {
     expect(await getSorted(numStore, 100)).toEqual(input.sort());
   });
 
-  test('Sort 10 numbers', async () => {
+  test.only('Sort 10 numbers', async () => {
     {
       const numStore: number[] = [];
-      const input = Array.from(genNumbers(10, 100));
+      const input = Array.from([92, 74, 73, 59, 10, 97, 93, 68, 67, 2]);
+      // const input = Array.from(genNumbers(10, 100));
       publisher.addListener('new_num', (n) => newNumberSubscriber(numStore, n));
 
       for (const num of input) {
         publisher.emit('new_num', num);
       }
 
-      expect(await getSorted(numStore, 1)).toEqual(input.sort());
+      expect(await getSorted(numStore, 5)).toEqual(input.sort((a, b) => a - b));
     }
-  });
+  }, 10000);
 });

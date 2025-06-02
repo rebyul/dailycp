@@ -10,6 +10,7 @@ let descSorted: number[] = [];
 function sortChunk(chunk: number[]) {
   // Process specific locally sorted list
   descSorted = chunk.sort((a, b) => b - a);
+  console.log(`[Worker]: sorted chunk ${descSorted}`);
   return;
 }
 
@@ -20,35 +21,39 @@ function popSmallest() {
 parentPort?.on('message', (message: BillionSortMessage) => {
   switch (message.action) {
     case 'sort-chunk':
-      console.log('[Worker]: sort-chunk work');
       sortChunk(message.data);
       parentPort?.postMessage({
         action: 'sort-chunk',
         data: [], // This is unnecessary as we're just ack that we're done
-        index: message.index,
       } satisfies SortChunkMessage);
       break;
     case 'pop-smallest':
-      console.log(`[Worker]: popping ${message.index}`);
-      parentPort?.postMessage({
-        action: 'pop-smallest',
-        data: popSmallest(),
-        index: message.index,
-      } satisfies PopSmallestMessage);
+      {
+        const intermediary = popSmallest();
+        // console.log(
+        //   `[Worker]: popping queue: ${message.index}, value: ${intermediary}, remaining: ${descSorted}`
+        // );
+        parentPort?.postMessage({
+          action: 'pop-smallest',
+          data: intermediary,
+          index: message.index,
+        } satisfies PopSmallestMessage);
+      }
       break;
   }
 });
 
 // parentPort?.on('sort-chunk', (message: SortChunkMessage) => {
+//   console.log('sorting');
 //   sortChunk(message.data);
 //   parentPort?.postMessage({
 //     action: 'sort-chunk',
 //     data: [], // This is unnecessary as we're just ack that we're done
-//     index: message.index,
 //   } satisfies SortChunkMessage);
 // });
 //
 // parentPort?.on('pop-smallest', (message: PopSmallestMessage) => {
+//   console.log(`[Worker]: popping ${message.index}`);
 //   parentPort?.postMessage({
 //     action: 'pop-smallest',
 //     data: popSmallest(),
