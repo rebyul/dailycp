@@ -25,6 +25,7 @@ export function reverseDelimited(input: string): string {
   let currentWord = '';
   const words = [];
   const delimiters = [];
+
   for (let i = 0; i < input.length; i++) {
     const char = input[i];
     if (delimiterSet.has(char)) {
@@ -39,22 +40,27 @@ export function reverseDelimited(input: string): string {
       if (currentWord.length > 0) {
         currentWord += char;
         words.push(currentWord);
-        // Reset current word as we've met a delimiter
       }
     } else {
       currentWord += char;
     }
   }
 
-  const reversedWords = words.toReversed();
+  const delimitersStack = delimiters.toReversed();
 
   let outputString = '';
-  for (const word of reversedWords) {
-    outputString += word;
-    const nextDelimiter = delimiters.shift();
-    if (nextDelimiter !== undefined) {
-      outputString += nextDelimiter;
+
+  while (words.length > 0 || delimitersStack.length > 0) {
+    const nextWord = words.pop();
+    if (nextWord !== undefined) {
+      outputString += nextWord;
+    }
+
+    const nextDelim = delimitersStack.pop();
+    if (nextDelim !== undefined) {
+      outputString += nextDelim;
     }
   }
+
   return outputString;
 }
