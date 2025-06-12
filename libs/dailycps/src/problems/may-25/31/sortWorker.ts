@@ -10,7 +10,7 @@ let descSorted: number[] = [];
 function sortChunk(chunk: number[]) {
   // Process specific locally sorted list
   descSorted = chunk.sort((a, b) => b - a);
-  console.log(`[Worker]: sorted chunk ${descSorted}`);
+  // console.log(`[Worker]: sorted chunk ${descSorted}`);
   return;
 }
 

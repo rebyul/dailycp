@@ -5,7 +5,7 @@ var descSorted = [];
 function sortChunk(chunk) {
     // Process specific locally sorted list
     descSorted = chunk.sort(function (a, b) { return b - a; });
-    console.log("[Worker]: sorted chunk ".concat(descSorted));
+    // console.log(`[Worker]: sorted chunk ${descSorted}`);
     return;
 }
 function popSmallest() {

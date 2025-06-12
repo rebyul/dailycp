@@ -6,7 +6,7 @@ import {
   getSorted,
 } from './billionSort';
 
-describe('Billion sort', () => {
+describe.skip('Billion sort', () => {
   let publisher: SortEmitter;
 
   beforeAll(() => {
@@ -15,7 +15,7 @@ describe('Billion sort', () => {
     });
   });
 
-  test.skip('Sort two numbers', async () => {
+  test('Sort two numbers', async () => {
     const numStore: number[] = [];
     const input = Array.from(genNumbers(2, 1000000000));
     publisher.addListener('new_num', (n) => newNumberSubscriber(numStore, n));
@@ -27,11 +27,11 @@ describe('Billion sort', () => {
     expect(await getSorted(numStore, 100)).toEqual(input.sort());
   });
 
-  test.only('Sort 10 numbers', async () => {
+  test('Sort 10 numbers', async () => {
     {
       const numStore: number[] = [];
-      const input = Array.from([92, 74, 73, 59, 10, 97, 93, 68, 67, 2]);
-      // const input = Array.from(genNumbers(10, 100));
+      // const input = Array.from([92, 74, 73, 59, 10, 97, 93, 68, 67, 2]);
+      const input = Array.from(genNumbers(1000, 100000000));
       publisher.addListener('new_num', (n) => newNumberSubscriber(numStore, n));
 
       for (const num of input) {

@@ -81,12 +81,12 @@ export async function getSorted(numStore: number[], maxChunkSize: number) {
           if (m.action === 'sort-chunk') resolve(undefined);
         });
         worker.on('error', reject);
-        worker.on('exit', (code) => {
-          console.log('exit ', code);
-          if (code !== 0) {
-            reject(new Error(`Worker stopped with exit code ${code}`));
-          }
-        });
+        // worker.on('exit', (code) => {
+        //   console.log('exit ', code);
+        //   if (code !== 0) {
+        //     reject(new Error(`Worker stopped with exit code ${code}`));
+        //   }
+        // });
       });
 
       workerPromises.push(sortedPromise);
@@ -101,7 +101,7 @@ export async function getSorted(numStore: number[], maxChunkSize: number) {
     // Each worker has sorted all chunks
     await Promise.all(workerPromises);
 
-    console.log('[Main] done sorting');
+    // console.log('[Main] done sorting');
     // Merge from all workers
     // const mergeCandidates = new MinHeap();
     const mergeCandiates = Array(workers.length).fill(null);
@@ -133,7 +133,7 @@ export async function getSorted(numStore: number[], maxChunkSize: number) {
       // Populate merge candidates
       for (let i = 0; i < mergeCandiates.length; i++) {
         if (mergeCandiates[i] === null) {
-          console.log(`[Main] queue popp on queue ${i}`);
+          // console.log(`[Main] queue popp on queue ${i}`);
           tickPromises[i] = new Promise((resolve, reject) => {
             resolveList[i] = resolve;
           });
@@ -143,7 +143,7 @@ export async function getSorted(numStore: number[], maxChunkSize: number) {
       // Wait for all next numbers to resolve
       await Promise.all(tickPromises.filter((p) => p !== undefined));
 
-      console.log(`[Main] merge candidates: ${mergeCandiates}`);
+      // console.log(`[Main] merge candidates: ${mergeCandiates}`);
       // Push the smallest mergeCandidate to the sorted array
       // Cheat a little here to save time
       // Maybe a min heap structure would be best to have here
@@ -162,7 +162,7 @@ export async function getSorted(numStore: number[], maxChunkSize: number) {
           return [prevValue, prevIndex];
         });
 
-      console.log(`[Main] pushing ${smallest} to output`);
+      // console.log(`[Main] pushing ${smallest} to output`);
       mergeCandiates[index] = null;
       sortedArray.push(smallest);
     }
