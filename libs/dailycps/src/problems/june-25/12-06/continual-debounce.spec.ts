@@ -35,11 +35,11 @@ describe('Continual debounce', () => {
   test('Extend mockFn before initial debounce', async () => {
     jest.useFakeTimers();
     const input = 2;
-    let res = continualDebounce(mockFn, 100);
-    const promise = res(2);
+    const dbFn = continualDebounce(mockFn, 100);
+    let promise = dbFn(2);
     expect(mockFn).not.toHaveBeenCalled();
     jest.advanceTimersByTime(99);
-    res = continualDebounce(mockFn.bind(undefined, input), 100);
+    promise = dbFn(input);
     expect(mockFn).not.toHaveBeenCalled();
     jest.advanceTimersByTime(101);
     expect(mockFn).toHaveBeenCalled();
