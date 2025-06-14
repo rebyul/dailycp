@@ -76,11 +76,18 @@ export function arrayToLinkedList(input: number[]) {
   if (input.length === 0) {
     throw Error('no input');
   }
+
   input.reverse();
-  let head = new LinkedListNode(input.shift());
+  const headValue = input.shift();
+
+  if (headValue === undefined) {
+    throw Error('no input');
+  }
+
+  let head = new LinkedListNode(headValue);
 
   while (input.length > 0) {
-    const newHead = new LinkedListNode(input.shift(), head);
+    const newHead = new LinkedListNode(input.shift()!, head);
     head = newHead;
   }
 
