@@ -6,15 +6,15 @@ import (
 )
 
 func TestTreeStructure(t *testing.T) {
-	leftChild := &problems.TreeNode{
+	leftChild := problems.TreeNode{
 		Value: 2,
 		Left:  nil,
 		Right: nil,
 	}
 
-	input := &problems.TreeNode{
+	input := problems.TreeNode{
 		Value: 1,
-		Left:  leftChild,
+		Left:  &leftChild,
 		Right: nil,
 	}
 
@@ -32,34 +32,34 @@ func TestTreeStructure(t *testing.T) {
 }
 
 func TestPruneTree(t *testing.T) {
-	leftChild := &problems.TreeNode{
+	leftChild := problems.TreeNode{
 		Value: 2,
 		Left:  nil,
 		Right: nil,
 	}
 
-	rightLeftChild := &problems.TreeNode{
+	rightLeftChild := problems.TreeNode{
 		Value: 0,
 		Left:  nil,
 		Right: nil,
 	}
 
-	rightRightChild := &problems.TreeNode{
+	rightRightChild := problems.TreeNode{
 		Value: 0,
 		Left:  nil,
 		Right: nil,
 	}
 
-	rightChild := &problems.TreeNode{
+	rightChild := problems.TreeNode{
 		Value: 3,
-		Left:  rightLeftChild,
-		Right: rightRightChild,
+		Left:  &rightLeftChild,
+		Right: &rightRightChild,
 	}
 
 	input := &problems.TreeNode{
 		Value: 1,
-		Left:  leftChild,
-		Right: rightChild,
+		Left:  &leftChild,
+		Right: &rightChild,
 	}
 
 	if input.Value != 1 {

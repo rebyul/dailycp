@@ -42,5 +42,6 @@ func PruneTree(root *TreeNode) *TreeNode {
 			}
 		}
 	}
+
 	return root
 }
