@@ -43,6 +43,14 @@ func TestMaxPathSum(t *testing.T) {
 	fmt.Printf("[End test] %d passed, %d failed\n", passed, failed)
 }
 
+func TestRun(t *testing.T) {
+	root1 := &datatypes.BinaryNode[int]{Value: -2}
+	root1.Left = &datatypes.BinaryNode[int]{Value: 2}
+	root1.Right = &datatypes.BinaryNode[int]{Value: 1}
+
+	problems.AdjPathSum(root1)
+}
+
 func execTest[T problems.Addable](t *testing.T, tc testcase[T]) bool {
 	result := problems.MaxPathSum[T](tc.root)
 

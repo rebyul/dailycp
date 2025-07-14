@@ -54,12 +54,34 @@ func MaxPathSum[T Addable](node *datatypes.BinaryNode[T]) []T {
 	return currMaxPath
 }
 
-func createAdjacencyTree[T Addable](node datatypes.BinaryNode[T]) map[datatypes.BinaryNode[T]]datatypes.BinaryNode[T] {
+func AdjPathSum[T Addable](node *datatypes.BinaryNode[T]) {
+	size := treeSize(node)
 	// Create empty map?
-	adjMap := make(map[datatypes.BinaryNode[T]]datatypes.BinaryNode[T])
+	adjMap := (make(map[datatypes.BinaryNode[T]][]datatypes.BinaryNode[T], size))
 
-	// nodeStack :=
-	return adjMap
+	populateAdjacencyTree(*node, &adjMap)
+	// fmt.Println(adjMap)
+
+	// for n, edges := range adjMap {
+	//
+	// }
+}
+
+func populateAdjacencyTree[T Addable](node datatypes.BinaryNode[T], adjMap *map[datatypes.BinaryNode[T]][]datatypes.BinaryNode[T]) {
+	// dfs node tree and add node to adj map
+	if _, ok := (*adjMap)[node]; !ok {
+		(*adjMap)[node] = make([]datatypes.BinaryNode[T], 0, 2)
+	}
+
+	if node.Left != nil {
+		(*adjMap)[node] = append((*adjMap)[node], *node.Left)
+		populateAdjacencyTree(*node.Left, adjMap)
+	}
+
+	if node.Right != nil {
+		(*adjMap)[node] = append((*adjMap)[node], *node.Right)
+		populateAdjacencyTree(*node.Right, adjMap)
+	}
 }
 
 func treeSize[T any](node *datatypes.BinaryNode[T]) int {
