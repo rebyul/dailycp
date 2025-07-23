@@ -1,7 +1,13 @@
 import { LfuCache } from './lfu';
 
 describe('Least frequently used cache', () => {
-  test('Set and Get value', () => {
+  test('negative max size throws error', () => {
+    expect(() => new LfuCache<string, number>(-1)).toThrow(
+      /max cache size must be > 0/i
+    );
+  });
+
+  test('set and get value', () => {
     const cache = new LfuCache<string, number>(3);
     const key = 'one',
       value = 1;
@@ -10,7 +16,7 @@ describe('Least frequently used cache', () => {
     expect(returned).toEqual(value);
   });
 
-  test('Remove lfu if full', () => {
+  test('remove lfu if full', () => {
     const cache = new LfuCache<string, number>(3);
 
     cache.set('one', 1);
