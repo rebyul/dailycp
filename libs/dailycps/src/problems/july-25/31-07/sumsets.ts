@@ -13,23 +13,27 @@ split it up into two subsets that add up to the same sum.
 */
 
 export function hasSumset(multiset: number[]): boolean {
-  const total = sum(multiset);
+  if (multiset.length < 2) {
+    return false;
+  }
+
+  const total = sumArray(multiset);
   if (total % 2 !== 0) {
     return false;
   }
 
   const targetSum = total / 2;
 
-  const possibleSums = new Set<number>([0]);
+  const possibleSums = new Map<number, number[]>([[0, []]]);
 
   for (const num of multiset) {
-    const newSums = [];
-    for (const sum2 of possibleSums) {
-      newSums.push(sum2 + num);
+    const newSums: [number, number[]][] = [];
+    for (const [sum, sumSet] of possibleSums) {
+      newSums.push([sum + num, [...sumSet, num]]);
     }
 
     for (const newSum of newSums) {
-      possibleSums.add(newSum);
+      possibleSums.set(newSum[0], newSum[1]);
     }
 
     if (possibleSums.has(targetSum)) {
@@ -37,9 +41,10 @@ export function hasSumset(multiset: number[]): boolean {
     }
   }
 
-  return possibleSums.has(targetSum);
+  const hasSum = possibleSums.has(targetSum);
+  return hasSum;
 }
 
-function sum(set: number[]) {
+function sumArray(set: number[]) {
   return set.reduce((a, c) => a + c, 0);
 }
