@@ -52,7 +52,7 @@ func TestRun(t *testing.T) {
 }
 
 func execTest[T problems.Addable](t *testing.T, tc testcase[T]) bool {
-	result := problems.MaxPathSum[T](tc.root)
+	result := problems.MaxPathSum(tc.root)
 
 	expectedLen, resultLen := len(tc.expected), len(result)
 	if expectedLen != resultLen {
@@ -68,11 +68,7 @@ func execTest[T problems.Addable](t *testing.T, tc testcase[T]) bool {
 
 	for _, v := range result {
 		if !slices.ContainsFunc(tc.expected, func(e T) bool {
-			if e == v {
-				return true
-			}
-
-			return false
+			return e == v
 		}) {
 			t.Errorf("[Test failed] Missing value: expected: %v actual: %v\n", tc.expected, result)
 			return false

@@ -4,7 +4,7 @@ import "errors"
 
 func ReverseArray(input []int) ([]int, error) {
 	if len(input) == 0 {
-		return nil, EmptyArrayError
+		return nil, ErrEmptyArray
 	}
 
 	inputLength := len(input)
@@ -17,4 +17,4 @@ func ReverseArray(input []int) ([]int, error) {
 	return reversed, nil
 }
 
-var EmptyArrayError = errors.New("Empty array")
+var ErrEmptyArray = errors.New("empty array")
