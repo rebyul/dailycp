@@ -35,7 +35,7 @@ func TestReverseEmptyArray(t *testing.T) {
 	// As per your requirement, we expect an error for an empty array
 	if err == nil {
 		t.Errorf("ReverseArray(empty) got err = nil, want an error")
-	} else if !errors.Is(err, problems.EmptyArrayError) {
+	} else if !errors.Is(err, problems.ErrEmptyArray) {
 		// Check if the error message is specifically "Empty array"
 		t.Errorf("ReverseArray(empty) got unexpected error: %v, want 'Empty array'", err)
 	}
