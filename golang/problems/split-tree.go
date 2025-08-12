@@ -1,8 +1,9 @@
 package problems
 
 import (
-	"dailycps/golang/internal/datatypes"
 	"errors"
+
+	"dailycps/golang/internal/datatypes"
 )
 
 /*
@@ -27,6 +28,7 @@ In this case, removing the edge (3, 4) satisfies our requirement.
 Write a function that returns the maximum number of edges you can remove while
 still satisfying this requirement.
 */
+
 func SplitTree[T comparable](tree *datatypes.BinaryTree[T]) ([]Edge[T], error) {
 	treeSize := tree.Size()
 
@@ -34,40 +36,35 @@ func SplitTree[T comparable](tree *datatypes.BinaryTree[T]) ([]Edge[T], error) {
 		return []Edge[T]{}, errors.New("uneven tree size")
 	}
 
-	// TODO: This needs to be a list of smallest even splits of the tree node and iterated
-	targetSplitSize := treeSize / 2
-
 	// recursively build size map of each node
-	subtreeSizeCache := buildSubtreeSizeCache(tree)
+	nodeSizeMap := buildNodeSizeMap(tree)
 
 	var edgesToRemove = make([]Edge[T], 0)
 
-	// if we find an edge to cut which results in a tree size on the known side
-	for node, nodeTreeSize := range subtreeSizeCache {
-		// Check if cutting one of the children equals target split size
-		// This is what i want to do as cutting one of the children would make this
-		// node's size a potential split child
-		// If cutting a child
-		if nodeTreeSize-1 != targetSplitSize {
-			continue
+	toCutList := []*datatypes.BinaryNode[T]{tree.Root}
+	for i := 0; i < len(toCutList); i++ {
+		current := toCutList[i]
+		currentSize := nodeSizeMap[current]
+
+		// try cut left
+		if current.Left != nil {
+			leftSubSize := nodeSizeMap[current.Left]
+			if leftSubSize%2 == 0 {
+				nodeSizeMap[current] = currentSize - leftSubSize
+				toCutList = append(toCutList, current.Left)
+				edgesToRemove = append(edgesToRemove, Edge[T]{From: current.Value, To: current.Left.Value})
+			}
 		}
 
-		// We now have a cut that might equal the target split size
-		// Choose whether we cut left or right
-		leftSize := subtreeSizeCache[node.Left]
-		if leftSize-1 == targetSplitSize {
-			// this equals an even cut, we return the edge to cut
-			edgesToRemove = append(edgesToRemove, Edge[T]{From: node.Value, To: node.Left.Value})
-			break
+		if current.Right != nil {
+			// try cut right
+			rightSizeSub := nodeSizeMap[current.Right]
+			if rightSizeSub%2 == 0 {
+				nodeSizeMap[current] = currentSize - rightSizeSub
+				toCutList = append(toCutList, current.Right)
+				edgesToRemove = append(edgesToRemove, Edge[T]{From: current.Value, To: current.Left.Value})
+			}
 		}
-
-		rightSize := subtreeSizeCache[node.Left]
-		if rightSize-1 == targetSplitSize {
-			// this equals an even cut, we return the edge to cut
-			edgesToRemove = append(edgesToRemove, Edge[T]{From: node.Value, To: node.Left.Value})
-			break
-		}
-
 	}
 
 	return edgesToRemove, nil
@@ -78,7 +75,7 @@ type Edge[T comparable] struct {
 	To   T
 }
 
-func buildSubtreeSizeCache[T comparable](tree *datatypes.BinaryTree[T]) map[*datatypes.BinaryNode[T]]int {
+func buildNodeSizeMap[T comparable](tree *datatypes.BinaryTree[T]) map[*datatypes.BinaryNode[T]]int {
 	sizeMap := make(map[*datatypes.BinaryNode[T]]int)
 
 	if tree == nil {
