@@ -62,7 +62,7 @@ func SplitTree[T comparable](tree *datatypes.BinaryTree[T]) ([]Edge[T], error) {
 			if rightSizeSub%2 == 0 {
 				nodeSizeMap[current] = currentSize - rightSizeSub
 				toCutList = append(toCutList, current.Right)
-				edgesToRemove = append(edgesToRemove, Edge[T]{From: current.Value, To: current.Left.Value})
+				edgesToRemove = append(edgesToRemove, Edge[T]{From: current.Value, To: current.Right.Value})
 			}
 		}
 	}
