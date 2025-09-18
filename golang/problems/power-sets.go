@@ -38,3 +38,30 @@ func CreatePowerSet(nums []int) [][]int {
 
 	return result
 }
+
+func RecursivePowerSet(nums []int) [][]int {
+	var result [][]int
+	var current []int
+
+	var backtrack func(start int)
+	backtrack = func(start int) {
+		// append a copy of current to result
+		tmp := make([]int, len(current))
+		copy(tmp, current)
+		result = append(result, tmp)
+
+		for i := start; i < len(nums); i++ {
+			// choose nums[i]
+			current = append(current, nums[i])
+
+			// explore further including nums[i]
+			backtrack(i + 1)
+
+			// undo choice
+			current = current[:len(current)-1]
+		}
+	}
+
+	backtrack(0)
+	return result
+}
