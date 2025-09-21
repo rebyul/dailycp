@@ -6,12 +6,12 @@
   "private": true,
   "devDependencies": {
     "@eslint/eslintrc": "^2.1.4",
-    "@nx/eslint": "21.5.2",
-    "@nx/eslint-plugin": "21.5.2",
-    "@nx/jest": "21.5.2",
-    "@nx/js": "21.5.2",
-    "@nx/node": "21.5.2",
-    "@nx/workspace": "21.5.2",
+    "@nx/eslint": "21.5.3",
+    "@nx/eslint-plugin": "21.5.3",
+    "@nx/jest": "21.5.3",
+    "@nx/js": "21.5.3",
+    "@nx/node": "21.5.3",
+    "@nx/workspace": "21.5.3",
     "@types/jest": "30.0.0",
     "@types/lodash": "^4.17.17",
     "@types/node": "22.15.3",
@@ -19,16 +19,16 @@
     "eslint-config-prettier": "10.1.2",
     "jest": "30.0.5",
     "jest-environment-jsdom": "30.0.5",
+    "jest-util": "30.0.5",
     "prettier": "^2.8.8",
     "ts-jest": "29.4.2",
     "ts-node": "10.9.1",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.44.0",
-    "jest-util": "30.0.5"
+    "typescript-eslint": "8.44.0"
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "nx": "21.5.2",
+    "nx": "21.5.3",
     "tslib": "^2.8.1"
   },
   "packageManager": "pnpm@10.15.0+sha512.486ebc259d3e999a4e8691ce03b5cac4a71cbeca39372a9b762cb500cfdf0873e2cb16abe3d951b1ee2cf012503f027b98b6584e4df22524e0c7450d9ec7aa7b",
