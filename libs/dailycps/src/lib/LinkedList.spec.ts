@@ -21,7 +21,6 @@ describe('Linked List', () => {
     const input = [1, 2, 3, 4, 5];
     const result = createLinkedList(input);
 
-    console.log(result);
     expect(result.length).toEqual(input.length);
 
     let curr = result.head;
