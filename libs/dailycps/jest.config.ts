@@ -1,4 +1,3 @@
-const meow: string = '';
 export default {
   displayName: 'dailycps',
   preset: '../../jest.preset.js',
