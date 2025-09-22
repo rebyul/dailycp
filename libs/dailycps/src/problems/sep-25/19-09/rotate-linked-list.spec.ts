@@ -1,4 +1,4 @@
-import { LinkedList, LinkedListNode } from '@dailycp/lib';
+import { createLinkedList, LinkedList, LinkedListNode } from '@dailycp/lib';
 import { rotateLinkedList } from './rotate-linked-list';
 
 describe('rotate linked lists', () => {
@@ -92,6 +92,7 @@ describe('rotate linked lists', () => {
         )
       ),
     ],
+    [createLinkedList([1, 2, 3, 4, 5]), 2, createLinkedList([4, 5, 1, 2, 3])],
   ])('given %j, rotate linked lists and k=%d, returns %j', (input, k, want) => {
     const result = rotateLinkedList(input, k);
     expect(result.length).toEqual(want.length);

@@ -19,3 +19,21 @@ export class LinkedList {
     return count;
   }
 }
+
+export function createLinkedList(input: number[]): LinkedList {
+  const ll = new LinkedList();
+  if (input.length === 0) {
+    return ll;
+  }
+
+  ll.head = new LinkedListNode(input[0]);
+
+  let curr = ll.head;
+  for (const val of input.splice(1)) {
+    const newNode = new LinkedListNode(val);
+    curr.next = newNode;
+    curr = newNode;
+  }
+
+  return ll;
+}
