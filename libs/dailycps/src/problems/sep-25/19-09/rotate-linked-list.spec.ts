@@ -71,6 +71,27 @@ describe('rotate linked lists', () => {
         )
       ),
     ],
+    [
+      new LinkedList(
+        new LinkedListNode(
+          1,
+          new LinkedListNode(
+            2,
+            new LinkedListNode(3, new LinkedListNode(4, new LinkedListNode(5)))
+          )
+        )
+      ),
+      1,
+      new LinkedList(
+        new LinkedListNode(
+          5,
+          new LinkedListNode(
+            1,
+            new LinkedListNode(2, new LinkedListNode(3, new LinkedListNode(4)))
+          )
+        )
+      ),
+    ],
   ])('given %j, rotate linked lists and k=%d, returns %j', (input, k, want) => {
     const result = rotateLinkedList(input, k);
     expect(result.length).toEqual(want.length);

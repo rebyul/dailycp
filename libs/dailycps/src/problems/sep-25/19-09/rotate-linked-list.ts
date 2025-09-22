@@ -9,7 +9,7 @@ Given the linked list 1 -> 2 -> 3 -> 4 -> 5 and k = 3, it should become 3 -> 4 -
 
 */
 
-import { LinkedList, LinkedListNode } from '@dailycp/lib';
+import { LinkedList } from '../../../lib';
 
 export function rotateLinkedList(ll: LinkedList, k: number): LinkedList {
   if (k === 0) {
@@ -18,16 +18,16 @@ export function rotateLinkedList(ll: LinkedList, k: number): LinkedList {
 
   const effectiveK = k % ll.length;
 
-  let tail = ll.head,
+  let currTail = ll.head,
     newTail = ll.head;
   const currHead = ll.head;
 
   // Find cut point
   for (let i = 0; i < ll.length - 1; i++) {
-    if (i < ll.length - effectiveK - 1) {
-      newTail = newTail?.next || null;
+    if (i === ll.length - effectiveK - 1) {
+      newTail = currTail;
     }
-    tail = tail?.next || null;
+    currTail = currTail?.next || null;
   }
 
   // set new ll head
@@ -37,7 +37,7 @@ export function rotateLinkedList(ll: LinkedList, k: number): LinkedList {
   newTail!.next = null;
 
   // make tail point to currHead
-  tail!.next = currHead;
+  currTail!.next = currHead;
 
   return ll;
 }
