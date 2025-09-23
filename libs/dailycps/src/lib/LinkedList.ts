@@ -18,6 +18,17 @@ export class LinkedList {
 
     return count;
   }
+
+  // Returns an array of the node values – used for debugging
+  toArray() {
+    const values = [];
+    let node = this.head;
+    while (node) {
+      values.push(node.val);
+      node = node.next;
+    }
+    return values;
+  }
 }
 
 export function createLinkedList(input: number[]): LinkedList {

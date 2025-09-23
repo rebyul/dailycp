@@ -1,3 +1,5 @@
+import { inspect, InspectOptions } from 'util';
+
 /**
  * Doubly linked list for numbers. Assumes there are no duplicate values
  */
@@ -71,6 +73,23 @@ export class DoublyLinkedList {
         curr = null;
       }
     }
+  }
+
+  // Returns an array of the node values – used for debugging
+  toArray() {
+    const values = [];
+    let node = this.head;
+    while (node) {
+      values.push(node.val);
+      node = node.next;
+    }
+    return values;
+  }
+
+  // Node.js custom inspect hook
+  // when Jest runs util.inspect on the list, this is called. return a plain array so that the test name shows the values.
+  [inspect.custom](_depth: any, _options: InspectOptions) {
+    return this.toArray();
   }
 }
 
