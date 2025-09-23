@@ -16,6 +16,22 @@ describe('Shortest standardized path', () => {
     expect(shortestStandardizedPath('/usr/.')).toEqual('/usr');
   });
 
+  test('path begins with .', () => {
+    expect(shortestStandardizedPath('./usr')).toEqual('/usr');
+  });
+
+  test('path begins with ..', () => {
+    expect(shortestStandardizedPath('../usr')).toEqual('/usr');
+  });
+
+  test('path ends with .', () => {
+    expect(shortestStandardizedPath('./usr/.')).toEqual('/usr');
+  });
+
+  test('path begins with ..', () => {
+    expect(shortestStandardizedPath('/usr/..')).toEqual('/');
+  });
+
   test('path with .. correctly traverses up', () => {
     expect(shortestStandardizedPath('/usr/../test')).toEqual('/test');
   });

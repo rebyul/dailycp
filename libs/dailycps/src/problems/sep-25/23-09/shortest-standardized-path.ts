@@ -13,15 +13,22 @@ export function shortestStandardizedPath(path: string): string {
   const tokens = path.split('/');
   for (const t of tokens) {
     if (t === '.') {
+      if (visited.length === 0) {
+        visited.push('');
+      }
       continue;
     }
 
     if (t === '..') {
-      visited.pop();
+      if (visited.length === 0) {
+        visited.push('');
+      } else {
+        visited.pop();
+      }
       continue;
     }
     visited.push(t);
   }
 
-  return visited.join('/');
+  return visited.join('/') || '/';
 }
