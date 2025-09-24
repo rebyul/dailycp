@@ -1,0 +1,5 @@
+# .air.toml
+[build]
+# this command will be run just after file changes
+# use `go test` instead of the default `go run`
+cmd = "go test -v ./problems"
