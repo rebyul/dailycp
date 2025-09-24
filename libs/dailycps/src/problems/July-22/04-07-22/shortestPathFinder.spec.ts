@@ -25,7 +25,7 @@ describe('Shortest path finder', () => {
       6,
     ],
   ])(
-    ',(shortestPathFinder(%p, %p, %p) returns %d',
+    'shortestPathFinder(%p, %p, %p) returns %d',
     (board, start, end, output) => {
       expect(shortestPathFinder(board, start, end)).toEqual(output);
     }
