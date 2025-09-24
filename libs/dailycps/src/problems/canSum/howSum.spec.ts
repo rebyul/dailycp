@@ -8,7 +8,7 @@ describe('How sum', () => {
     [7, [2, 4], null],
     [8, [2, 3, 5], [2, 2, 2, 2]],
     [300, [7, 14], null],
-  ])('.howSum(%d, %p)', (sum, numbers, output) => {
+  ])('.howSum(%d, %p) returns %p', (sum, numbers, output) => {
     expect(howSum(sum, numbers)).toEqual(output);
   });
 });
