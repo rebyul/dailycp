@@ -44,9 +44,8 @@ export function shortestPathFinder(
   // Set distance to starting position as 0
   minDistance.set(`${sY},${sX}`, 0);
 
-  // Initialize queueu
-  const queue = [];
-  queue.push([sY, sX]);
+  // Initialize queue
+  const queue = [[sY, sX]];
 
   // while queue is not empty
   while (queue.length > 0) {
@@ -54,28 +53,28 @@ export function shortestPathFinder(
     const [cY, cX] = queue.pop()!;
 
     // Check neighbours
-    directions.forEach(([vX, vY]) => {
+    directions.forEach(([dx, dy]) => {
       // If it's on the board and not a wall
       if (
-        !isOnBoard(boardWidth, boardHeight, cX + vX, cY + vY) ||
-        isWall(board, cX + vX, cY + vY)
+        !isOnBoard(boardWidth, boardHeight, cX + dx, cY + dy) ||
+        isWall(board, cX + dx, cY + dy)
       ) {
         return;
       }
       // check if it has been visited
-      const nextMinDistance = minDistance.get(`${cY + vY},${cX + vX}`);
+      const nextMinDistance = minDistance.get(`${cY + dy},${cX + dx}`);
       const currentMinDistance = minDistance.get(`${cY},${cX}`)!;
 
       // if it hasnt been explored, add to queueq
       if (!nextMinDistance) {
-        minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
-        queue.push([cY + vY, cX + vX]);
+        minDistance.set(`${cY + dy},${cX + dx}`, currentMinDistance + 1);
+        queue.push([cY + dy, cX + dx]);
         return;
       }
       // If previous saved distance to the next position is longer than current min +1 update it
       else if (nextMinDistance > currentMinDistance + 1) {
-        minDistance.set(`${cY + vY},${cX + vX}`, currentMinDistance + 1);
-        queue.push([cY + vY, cX + vX]);
+        minDistance.set(`${cY + dy},${cX + dx}`, currentMinDistance + 1);
+        queue.push([cY + dy, cX + dx]);
         return;
       }
     });
