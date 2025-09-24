@@ -36,6 +36,10 @@ describe('Shortest standardized path', () => {
     expect(shortestStandardizedPath('/usr/../test')).toEqual('/test');
   });
 
+  test('path with double slashes', () => {
+    expect(shortestStandardizedPath('/usr//test')).toEqual('/usr/test');
+  });
+
   test.each([['/usr/bin/../bin/./scripts/../', '/usr/bin/']])(
     'given %s, shortestStandardizedPath returns %s',
     (given, want) => {

@@ -10,7 +10,7 @@ export function shortestStandardizedPath(path: string): string {
   const visited: string[] = [];
   if (path.length === 0) return '';
 
-  const tokens = path.split('/');
+  const tokens = path.split(/\/+/);
   for (const t of tokens) {
     if (t === '.') {
       if (visited.length === 0) {
